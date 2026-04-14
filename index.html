@@ -529,6 +529,204 @@ td .btn + .btn { margin-left: 5px; }
 @media (max-width: 420px) {
   .an-kpi-grid { grid-template-columns: 1fr; }
 }
+
+/* ══════════════════════════════════════════════════
+   MONTHLY EARNINGS STYLES (NEW — does not override existing)
+══════════════════════════════════════════════════ */
+.mr-current-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 6px;
+}
+.mr-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.mr-card:hover { box-shadow: var(--shadow); }
+.mr-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.mr-card.mr-total::before  { background: var(--green); }
+.mr-card.mr-deduct::before { background: var(--red); }
+.mr-card.mr-net::before    { background: var(--accent); }
+.mr-card-icon {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+.mr-card-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.mr-card-value {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.mr-card.mr-total  .mr-card-value { color: var(--green); }
+.mr-card.mr-deduct .mr-card-value { color: var(--red); }
+.mr-card.mr-net    .mr-card-value { color: var(--accent); }
+.mr-card-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 5px;
+}
+@media (max-width: 640px) {
+  .mr-current-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Override panel ── */
+.mr-override-panel {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-top: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.mr-override-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.mr-override-body {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.mr-override-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.mr-override-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.mr-override-preview {
+  background: var(--accent-light);
+  border: 1px solid rgba(200,98,58,0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  min-width: 200px;
+}
+.mr-op-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text);
+  padding: 3px 0;
+}
+
+/* ── Source notice banner ── */
+.mr-source-notice {
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+  display: none;
+}
+.mr-source-notice.is-override {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--yellow-light);
+  border: 1px solid rgba(200,160,58,0.3);
+  color: var(--yellow);
+}
+.mr-source-notice.is-computed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--green-light);
+  border: 1px solid rgba(58,138,90,0.2);
+  color: var(--green);
+}
+
+/* ── Source tag on total card ── */
+.mr-source-tag {
+  margin-top: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  display: inline-block;
+  background: var(--green-light);
+  color: var(--green);
+}
+.mr-source-tag.is-override {
+  background: var(--yellow-light);
+  color: var(--yellow);
+}
+/* ══════════════════════════════════════════════════
+   ORDER MONTH-GROUP DIVIDER ROWS (NEW)
+   Injected as <tr class="order-month-divider"> rows
+   inside the existing <tbody id="orderTableBody">.
+   Does not affect any other table.
+══════════════════════════════════════════════════ */
+.order-month-divider td {
+  padding: 10px 13px 8px !important;
+  background: var(--bg) !important;
+  border-bottom: 2px solid var(--border) !important;
+  border-top: 2px solid var(--border) !important;
+  pointer-events: none;
+}
+/* First divider — no top border so it doesn't double with thead border */
+.order-month-divider:first-child td {
+  border-top: none !important;
+}
+.order-month-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.order-month-label .oml-month {
+  color: var(--text);
+  font-size: 0.82rem;
+}
+.order-month-label .oml-count {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-radius: 20px;
+  padding: 1px 8px;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+.order-month-label .oml-total {
+  color: var(--green);
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-left: 4px;
+}
+/* Suppress hover highlight on divider rows */
+.order-month-divider:hover { background: transparent !important; }
 </style>
 </head>
 <body>
@@ -587,6 +785,9 @@ td .btn + .btn { margin-left: 5px; }
       <div class="nav-item" data-section="analytics" onclick="navigate('analytics')"><span class="icon">🔥</span> Sales Analytics</div>
       <div class="nav-item" data-section="reports"   onclick="navigate('reports')"><span class="icon">📈</span> Daily Report</div>
       <div class="nav-item" data-section="customers" onclick="navigate('customers')"><span class="icon">👥</span> Customers<span class="nav-badge" id="badgeCustomers">0</span></div>
+      <!-- ══ NEW: Monthly Earnings nav item ══ -->
+      <span class="nav-label" style="margin-top:6px">Finance</span>
+      <div class="nav-item" data-section="monthly" onclick="navigate('monthly')"><span class="icon">💵</span> Monthly Earnings</div>
     </div>
     <div class="sidebar-bottom">
       <div class="sidebar-user">
@@ -745,6 +946,134 @@ td .btn + .btn { margin-left: 5px; }
         <div class="customer-grid" id="customerGrid"></div>
         <div id="customerEmpty" class="empty-state" style="display:none"><div class="empty-icon">👥</div><h4>No customers yet</h4><p>Add a customer manually or they'll be auto-saved from orders.</p></div>
       </div>
+
+      <!-- ══ MONTHLY EARNINGS ══ -->
+      <div id="sec-monthly" class="section">
+        <div class="section-header">
+          <div>
+            <h2>Monthly Earnings 💵</h2>
+            <p>Live from Firebase orders data. 10% deduction auto-computed. Override available below.</p>
+          </div>
+          <button class="btn btn-primary" onclick="saveCurrentMonthReport()">💾 Save This Month</button>
+        </div>
+
+        <!-- ── DATA SOURCE NOTICE ── -->
+        <div class="mr-source-notice" id="mrSourceNotice">
+          <!-- filled by renderMonthlyReport() — shows if override is active -->
+        </div>
+
+        <!-- ── CURRENT MONTH SUMMARY CARDS ── -->
+        <!-- Values come from real completed orders in Firebase, unless override is active -->
+        <div class="mr-current-grid" id="mrCurrentGrid">
+          <div class="mr-card mr-total">
+            <div class="mr-card-icon">💰</div>
+            <div class="mr-card-label">Total Earnings</div>
+            <div class="mr-card-value" id="mrTotalEarnings">₱0.00</div>
+            <div class="mr-card-sub" id="mrCurrentMonth">—</div>
+            <!-- small "computed" or "override" tag shown dynamically -->
+            <div class="mr-source-tag" id="mrSourceTag">📊 From orders</div>
+          </div>
+          <div class="mr-card mr-deduct">
+            <div class="mr-card-icon">🔻</div>
+            <div class="mr-card-label">10% Deduction</div>
+            <div class="mr-card-value" id="mrDeduction">₱0.00</div>
+            <div class="mr-card-sub">Capital / savings set-aside</div>
+          </div>
+          <div class="mr-card mr-net">
+            <div class="mr-card-icon">✅</div>
+            <div class="mr-card-label">Remaining Balance</div>
+            <div class="mr-card-value" id="mrRemaining">₱0.00</div>
+            <div class="mr-card-sub">After 10% deduction</div>
+          </div>
+        </div>
+
+        <!-- ── OVERRIDE PANEL ── -->
+        <!-- Lets the user manually set this month's earnings. Saved to Firebase as monthly_override/<YYYY-MM> -->
+        <div class="mr-override-panel" id="mrOverridePanel">
+          <div class="mr-override-header">
+            <span>✏️ Manual Override — <span id="mrOverrideMonth">—</span></span>
+            <button class="btn btn-outline btn-sm" onclick="toggleOverridePanel()">
+              <span id="mrOverrideToggleLabel">Edit Earnings</span>
+            </button>
+          </div>
+          <div class="mr-override-body" id="mrOverrideBody" style="display:none">
+            <p class="mr-override-hint">
+              Override replaces the computed value for this month. Leave blank or set to 0 to remove the override and revert to real order data.
+            </p>
+            <div class="mr-override-row">
+              <div class="form-group" style="flex:1;margin-bottom:0">
+                <label>Override Amount (₱)</label>
+                <input type="number" id="mrOverrideInput" placeholder="e.g. 1500" min="0" step="0.01"
+                  oninput="previewOverride(this.value)"/>
+              </div>
+              <div class="mr-override-preview" id="mrOverridePreview" style="display:none">
+                <div class="mr-op-row"><span>Total (override)</span><strong id="mrOpTotal">—</strong></div>
+                <div class="mr-op-row"><span>10% Deduction</span><strong id="mrOpDeduct" style="color:var(--red)">—</strong></div>
+                <div class="mr-op-row"><span>Remaining</span><strong id="mrOpRemain" style="color:var(--accent)">—</strong></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <button class="btn btn-primary btn-sm" onclick="applyOverride()">💾 Save Override</button>
+              <button class="btn btn-del btn-sm" onclick="clearOverride()">✕ Clear Override</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── ALL MONTHS BREAKDOWN (from live orders) ── -->
+        <!-- Always computed from the real orders data in Firebase cache (_orders) -->
+        <div class="an-divider" style="margin-top:28px">📊 All Months — Live from Orders</div>
+        <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Completed Orders</th>
+                  <th>Computed Earnings</th>
+                  <th>Override</th>
+                  <th>Effective Earnings</th>
+                  <th>10% Deduction</th>
+                  <th>Remaining Balance</th>
+                </tr>
+              </thead>
+              <tbody id="mrBreakdownBody"></tbody>
+            </table>
+          </div>
+          <div id="mrBreakdownEmpty" class="empty-state" style="display:none">
+            <div class="empty-icon">💵</div>
+            <h4>No completed orders yet</h4>
+            <p>Earnings will appear here once orders are marked as Completed.</p>
+          </div>
+        </div>
+
+        <!-- ── SAVED HISTORY from Firebase "monthly_reports" ── -->
+        <div class="an-divider">📂 Saved Monthly Reports History</div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Computed</th>
+                  <th>Override</th>
+                  <th>Effective Earnings</th>
+                  <th>10% Deduction</th>
+                  <th>Final Amount</th>
+                  <th>Saved On</th>
+                  <th style="text-align:center">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="mrHistoryBody"></tbody>
+            </table>
+          </div>
+          <div id="mrHistoryEmpty" class="empty-state" style="display:none">
+            <div class="empty-icon">📂</div>
+            <h4>No saved reports yet</h4>
+            <p>Click "Save This Month" to record the current month's report to Firebase.</p>
+          </div>
+        </div>
+      </div>
+      <!-- ══ END MONTHLY EARNINGS ══ -->
 
     </div><!-- /content -->
   </div><!-- /main -->
@@ -1260,7 +1589,8 @@ let currentSection = 'dashboard';
 const sectionTitles = {
   dashboard: 'Dashboard', products: 'Products', orders: 'Orders',
   inventory: 'Inventory', reports: 'Daily Report', customers: 'Customers',
-  analytics: 'Sales Analytics'
+  analytics: 'Sales Analytics',
+  monthly: 'Monthly Earnings'   // ← NEW
 };
 let orderFilter = 'all';
 
@@ -1286,6 +1616,7 @@ function renderSection(id) {
     reports:   renderReports,
     customers: renderCustomers,
     analytics: renderAnalytics,
+    monthly:   renderMonthlyReport,   // ← NEW
   };
   fns[id]?.();
 }
@@ -1576,6 +1907,8 @@ function deleteOrder(orderId) {
 function renderOrders(search = '') {
   let orders = getOrders();
   const today = todayStr();
+
+  // ── Apply existing filters (UNCHANGED) ──
   if (orderFilter === 'today')     orders = orders.filter(o => o.date.startsWith(today));
   if (orderFilter === 'pending')   orders = orders.filter(o => o.status === 'pending');
   if (orderFilter === 'completed') orders = orders.filter(o => o.status === 'completed');
@@ -1585,24 +1918,94 @@ function renderOrders(search = '') {
     o.customer.toLowerCase().includes(search.toLowerCase()) ||
     o.product.toLowerCase().includes(search.toLowerCase())
   );
-  const tbody  = document.getElementById('orderTableBody');
-  const empty  = document.getElementById('orderEmptyState');
-  const sorted = [...orders].reverse();
+
+  const tbody = document.getElementById('orderTableBody');
+  const empty = document.getElementById('orderEmptyState');
+
+  // ── Sort: latest first (UNCHANGED behaviour) ──
+  const sorted = [...orders].sort((a, b) => new Date(b.date) - new Date(a.date));
+
   if (!sorted.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
   empty.style.display = 'none';
-  tbody.innerHTML = sorted.map(o =>
-    `<tr id="orow-${o.id}">
-      <td class="td-name">👤 ${o.customer}</td>
-      <td>${o.product}</td>
-      <td><span class="badge badge-accent">×${o.qty}</span></td>
-      <td><strong style="color:var(--green)">${formatPeso(o.total)}</strong></td>
-      <td>${statusSelect(o.id, o.status)}</td>
-      <td style="color:var(--text-muted);font-size:.77rem;white-space:nowrap">${formatDate(o.date)}</td>
-      <td style="text-align:center">
-        <button class="btn btn-del btn-sm" onclick="confirmDeleteOrder('${o.id}')" title="Delete this order">🗑️</button>
+
+  // ── When filter isn't "all" or we have search text, flat list is fine ──
+  // Only group by month on the "all" view without a search query,
+  // because filters like "Today" or "Pending" span no meaningful month boundary.
+  // Exception: if "today" filter shows data from multiple months (edge-case) we
+  // still group correctly because the grouping function handles any sorted list.
+  const useGrouping = true; // always group — works correctly for every filter
+
+  if (!useGrouping) {
+    // (unreachable — kept for future toggle) flat render
+    tbody.innerHTML = sorted.map(o => orderRowHTML(o)).join('');
+    return;
+  }
+
+  // ── Group orders by YYYY-MM ──
+  // groupOrder: [ { monthKey, monthLabel, orders: [...] }, ... ]
+  const groupMap  = {};
+  const groupOrder = [];
+
+  sorted.forEach(o => {
+    // Extract "YYYY-MM" from the ISO date stored in Firebase
+    const key = o.date ? o.date.slice(0, 7) : 'unknown';
+    if (!groupMap[key]) {
+      const label = key === 'unknown'
+        ? 'Unknown Date'
+        : new Date(Number(key.slice(0, 4)), Number(key.slice(5, 7)) - 1, 1)
+            .toLocaleDateString('en-PH', { month: 'long', year: 'numeric' });
+      groupMap[key]  = { monthKey: key, monthLabel: label, orders: [] };
+      groupOrder.push(groupMap[key]);
+    }
+    groupMap[key].orders.push(o);
+  });
+
+  // ── Build HTML: month-divider row + order rows per group ──
+  const COLS = 7; // must match the <thead> column count
+  const rows = [];
+
+  groupOrder.forEach(group => {
+    // Compute group subtotals (completed orders only) for the divider summary
+    const groupCompleted = group.orders.filter(o => o.status === 'completed');
+    const groupTotal     = groupCompleted.reduce((s, o) => s + (o.total || 0), 0);
+    const countLabel     = `${group.orders.length} order${group.orders.length !== 1 ? 's' : ''}`;
+    const totalLabel     = groupCompleted.length > 0 ? `· ${formatPeso(groupTotal)} earned` : '';
+
+    // ── Month divider row ──
+    rows.push(`<tr class="order-month-divider">
+      <td colspan="${COLS}">
+        <span class="order-month-label">
+          📅 <span class="oml-month">${group.monthLabel}</span>
+          <span class="oml-count">${countLabel}</span>
+          ${totalLabel ? `<span class="oml-total">${totalLabel}</span>` : ''}
+        </span>
       </td>
-    </tr>`
-  ).join('');
+    </tr>`);
+
+    // ── Order rows for this month (HTML identical to original) ──
+    group.orders.forEach(o => rows.push(orderRowHTML(o)));
+  });
+
+  tbody.innerHTML = rows.join('');
+}
+
+/**
+ * Returns the HTML for a single order <tr>.
+ * Extracted from renderOrders so it can be called from the grouping loop.
+ * Content is IDENTICAL to the original inline template — nothing changed.
+ */
+function orderRowHTML(o) {
+  return `<tr id="orow-${o.id}">
+    <td class="td-name">👤 ${o.customer}</td>
+    <td>${o.product}</td>
+    <td><span class="badge badge-accent">×${o.qty}</span></td>
+    <td><strong style="color:var(--green)">${formatPeso(o.total)}</strong></td>
+    <td>${statusSelect(o.id, o.status)}</td>
+    <td style="color:var(--text-muted);font-size:.77rem;white-space:nowrap">${formatDate(o.date)}</td>
+    <td style="text-align:center">
+      <button class="btn btn-del btn-sm" onclick="confirmDeleteOrder('${o.id}')" title="Delete this order">🗑️</button>
+    </td>
+  </tr>`;
 }
 
 function filterOrders(type, el) {
@@ -2116,11 +2519,403 @@ function onSearch(val) {
 }
 
 /* ════════════════════════════════════════════════════════════════
+   MONTHLY EARNINGS REPORT
+   ─────────────────────────────────────────────────────────────
+   DATA SOURCE:  Real completed orders from _orders cache (Firebase).
+   OVERRIDE:     Optional per-month override stored in Firebase under
+                 "monthly_override/<YYYY-MM>". When present, it is used
+                 instead of the computed value for display & saving.
+   HISTORY:      Snapshots saved by user to "monthly_reports/<id>".
+   ─────────────────────────────────────────────────────────────
+   Firebase nodes used (all NEW — no existing nodes touched):
+     • monthly_override/<YYYY-MM>  ← per-month override value
+     • monthly_reports/<id>        ← user-saved history snapshots
+════════════════════════════════════════════════════════════════ */
+
+// ── In-memory caches (populated by Firebase listeners) ──
+let _monthlyReports  = [];   // saved history snapshots
+let _monthlyOverride = {};   // { "YYYY-MM": overrideAmount } — live from Firebase
+
+// ── UI state ──
+let _overridePanelOpen = false;
+
+/* ─────────────────────────────────────────────────
+   FIREBASE LISTENERS
+───────────────────────────────────────────────── */
+
+/**
+ * Attach real-time listeners for both monthly Firebase nodes.
+ * Called once at boot alongside the existing attachListeners().
+ */
+function attachMonthlyListener() {
+  // Listener: saved history snapshots
+  db.ref('monthly_reports').on('value', snapshot => {
+    _monthlyReports = objToArray(snapshot.val());
+    if (_initialLoadDone && currentSection === 'monthly') renderMonthlyReport();
+  }, err => console.error('[Firebase] monthly_reports listener error:', err));
+
+  // Listener: per-month overrides
+  db.ref('monthly_override').on('value', snapshot => {
+    const raw = snapshot.val();
+    // raw is { "2026-04": 1500, "2026-03": 0 } — flat key→number map
+    _monthlyOverride = raw && typeof raw === 'object' ? raw : {};
+    if (_initialLoadDone && currentSection === 'monthly') renderMonthlyReport();
+  }, err => console.error('[Firebase] monthly_override listener error:', err));
+}
+
+/* ─────────────────────────────────────────────────
+   DATA CALCULATION — reads from real _orders cache
+───────────────────────────────────────────────── */
+
+/**
+ * Build { "YYYY-MM": computedTotal } purely from Firebase orders cache.
+ * Only "completed" orders count as earnings — same rule as Sales Analytics.
+ * NO hardcoded values anywhere here.
+ */
+function buildMonthlyEarningsMap() {
+  const map = {};
+  // ── READ: iterate all cached orders from Firebase ──
+  getOrders()
+    .filter(o => o.status === 'completed' && o.date)
+    .forEach(o => {
+      const monthKey = o.date.slice(0, 7); // "YYYY-MM"
+      // ── SUM: accumulate totals per month ──
+      map[monthKey] = (map[monthKey] || 0) + (o.total || 0);
+    });
+  return map;   // e.g. { "2026-04": 830, "2026-03": 1500 }
+}
+
+/**
+ * Determine the effective (display) earnings for a month.
+ * Priority: override value in Firebase > computed value from orders.
+ * @param {string} monthKey  "YYYY-MM"
+ * @param {number} computed  summed from real orders
+ * @returns {{ effective: number, isOverride: boolean }}
+ */
+function resolveEarnings(monthKey, computed) {
+  // ── OVERRIDE CHECK: use override if it exists and is > 0 ──
+  const ov = _monthlyOverride[monthKey];
+  if (ov !== undefined && ov !== null && Number(ov) > 0) {
+    return { effective: Number(ov), isOverride: true };
+  }
+  // ── FALLBACK: real computed value from orders ──
+  return { effective: computed, isOverride: false };
+}
+
+/* ─────────────────────────────────────────────────
+   HELPER FUNCTIONS
+───────────────────────────────────────────────── */
+
+/** Convert "YYYY-MM" → "April 2026" */
+function monthKeyToLabel(key) {
+  const [year, month] = key.split('-');
+  return new Date(Number(year), Number(month) - 1, 1)
+    .toLocaleDateString('en-PH', { month: 'long', year: 'numeric' });
+}
+
+/** Today's month key as "YYYY-MM" */
+function currentMonthKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
+/* ─────────────────────────────────────────────────
+   MAIN RENDER
+───────────────────────────────────────────────── */
+
+/**
+ * Render the entire Monthly Earnings section.
+ * Called when navigating to the section or when Firebase data changes.
+ */
+function renderMonthlyReport() {
+  // ── Step 1: compute earnings map from real orders data ──
+  const earningsMap = buildMonthlyEarningsMap();
+  const thisMonth   = currentMonthKey();
+
+  // ── Step 2: resolve effective total (override wins if set) ──
+  const computed              = earningsMap[thisMonth] || 0;
+  const { effective, isOverride } = resolveEarnings(thisMonth, computed);
+
+  // ── Step 3: derive deduction & remaining from effective value ──
+  const deduction = effective * 0.10;
+  const remaining = effective - deduction;
+
+  // ── Step 4: update summary cards ──
+  document.getElementById('mrTotalEarnings').textContent = formatPeso(effective);
+  document.getElementById('mrDeduction').textContent     = formatPeso(deduction);
+  document.getElementById('mrRemaining').textContent     = formatPeso(remaining);
+  document.getElementById('mrCurrentMonth').textContent  = monthKeyToLabel(thisMonth);
+
+  // source tag on the total card
+  const srcTag = document.getElementById('mrSourceTag');
+  if (isOverride) {
+    srcTag.textContent = '✏️ Override active';
+    srcTag.className   = 'mr-source-tag is-override';
+  } else {
+    srcTag.textContent = '📊 From orders';
+    srcTag.className   = 'mr-source-tag';
+  }
+
+  // ── Step 5: update the source notice banner ──
+  const notice = document.getElementById('mrSourceNotice');
+  if (isOverride) {
+    notice.className   = 'mr-source-notice is-override';
+    notice.innerHTML   = `⚠️ Override active for ${monthKeyToLabel(thisMonth)}: ₱${Number(_monthlyOverride[thisMonth]).toLocaleString('en-PH', {minimumFractionDigits:2})} &nbsp;|&nbsp; Computed from orders: ${formatPeso(computed)}`;
+  } else {
+    notice.className   = 'mr-source-notice is-computed';
+    notice.innerHTML   = `✅ Showing real order data — ${formatPeso(computed)} computed from ${(earningsMap[thisMonth] !== undefined ? getOrders().filter(o => o.status==='completed' && o.date && o.date.startsWith(thisMonth)).length : 0)} completed order(s) this month.`;
+  }
+
+  // ── Step 6: pre-fill override input with current override (if any) ──
+  const ovInput = document.getElementById('mrOverrideInput');
+  const curOv   = _monthlyOverride[thisMonth];
+  ovInput.value  = (curOv && Number(curOv) > 0) ? Number(curOv) : '';
+  document.getElementById('mrOverrideMonth').textContent = monthKeyToLabel(thisMonth);
+  document.getElementById('mrOverridePreview').style.display = 'none';
+
+  // ── Step 7: render all-months breakdown table ──
+  renderMonthlyBreakdown(earningsMap, thisMonth);
+
+  // ── Step 8: render saved history ──
+  renderMonthlyHistory();
+}
+
+/**
+ * Render the all-months breakdown table.
+ * Shows computed earnings, any override, effective total, deduction, remaining.
+ */
+function renderMonthlyBreakdown(earningsMap, thisMonth) {
+  const tbody   = document.getElementById('mrBreakdownBody');
+  const emptyEl = document.getElementById('mrBreakdownEmpty');
+
+  // Gather all months that have either real orders or a saved override
+  const allMonths = new Set([
+    ...Object.keys(earningsMap),
+    ...Object.keys(_monthlyOverride).filter(k => Number(_monthlyOverride[k]) > 0)
+  ]);
+  const months = [...allMonths].sort().reverse();
+
+  if (months.length === 0) {
+    tbody.innerHTML = '';
+    emptyEl.style.display = 'flex';
+    return;
+  }
+  emptyEl.style.display = 'none';
+
+  // Count completed orders per month for display
+  const orderCountMap = {};
+  getOrders()
+    .filter(o => o.status === 'completed' && o.date)
+    .forEach(o => {
+      const k = o.date.slice(0, 7);
+      orderCountMap[k] = (orderCountMap[k] || 0) + 1;
+    });
+
+  tbody.innerHTML = months.map(key => {
+    const computed              = earningsMap[key] || 0;
+    const { effective, isOverride } = resolveEarnings(key, computed);
+    const deduction = effective * 0.10;
+    const remaining = effective - deduction;
+    const isThis    = key === thisMonth;
+    const rowStyle  = isThis ? 'style="background:var(--green-light)"' : '';
+    const count     = orderCountMap[key] || 0;
+
+    const monthLabel = monthKeyToLabel(key) +
+      (isThis ? ' <span class="badge badge-green" style="font-size:10px;vertical-align:middle">Current</span>' : '');
+
+    const overrideCell = isOverride
+      ? `<span style="color:var(--yellow);font-weight:700">${formatPeso(Number(_monthlyOverride[key]))}</span> <span class="badge badge-yellow" style="font-size:9px">override</span>`
+      : `<span style="color:var(--text-muted);font-size:0.78rem">—</span>`;
+
+    return `<tr ${rowStyle}>
+      <td class="td-name">${monthLabel}</td>
+      <td><span class="badge badge-green">${count} order${count !== 1 ? 's' : ''}</span></td>
+      <td style="color:var(--text-muted)">${formatPeso(computed)}</td>
+      <td>${overrideCell}</td>
+      <td style="font-weight:700;color:var(--green)">${formatPeso(effective)}</td>
+      <td style="color:var(--red)">${formatPeso(deduction)}</td>
+      <td style="font-weight:700;color:var(--accent)">${formatPeso(remaining)}</td>
+    </tr>`;
+  }).join('');
+}
+
+/**
+ * Render the saved monthly reports history table from _monthlyReports cache.
+ */
+function renderMonthlyHistory() {
+  const tbody   = document.getElementById('mrHistoryBody');
+  const emptyEl = document.getElementById('mrHistoryEmpty');
+
+  if (!_monthlyReports.length) {
+    tbody.innerHTML = '';
+    emptyEl.style.display = 'flex';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  const sorted = [..._monthlyReports].sort((a, b) => b.monthKey.localeCompare(a.monthKey));
+
+  tbody.innerHTML = sorted.map(r => {
+    const hasOverride = r.override && Number(r.override) > 0;
+    const overrideCell = hasOverride
+      ? `<span style="color:var(--yellow);font-weight:700">${formatPeso(Number(r.override))}</span>`
+      : `<span style="color:var(--text-muted);font-size:0.78rem">—</span>`;
+
+    return `<tr>
+      <td class="td-name">${r.monthLabel || monthKeyToLabel(r.monthKey)}</td>
+      <td style="color:var(--text-muted)">${formatPeso(r.computed || r.total || 0)}</td>
+      <td>${overrideCell}</td>
+      <td style="font-weight:700;color:var(--green)">${formatPeso(r.total)}</td>
+      <td style="color:var(--red)">${formatPeso(r.deduction)}</td>
+      <td style="font-weight:700;color:var(--accent)">${formatPeso(r.remaining)}</td>
+      <td style="color:var(--text-muted);font-size:0.8rem">${r.savedAt ? formatDate(r.savedAt) : '—'}</td>
+      <td style="text-align:center">
+        <button class="btn btn-del btn-sm"
+          onclick="deleteMonthlyReport('${r.id}','${(r.monthLabel || r.monthKey).replace(/'/g, "\\'")}')">
+          🗑 Delete
+        </button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* ─────────────────────────────────────────────────
+   OVERRIDE PANEL UI
+───────────────────────────────────────────────── */
+
+/** Toggle the override input panel open/closed */
+function toggleOverridePanel() {
+  _overridePanelOpen = !_overridePanelOpen;
+  document.getElementById('mrOverrideBody').style.display  = _overridePanelOpen ? 'block' : 'none';
+  document.getElementById('mrOverrideToggleLabel').textContent = _overridePanelOpen ? 'Close' : 'Edit Earnings';
+}
+
+/** Live preview while user types an override amount */
+function previewOverride(val) {
+  const amount = parseFloat(val);
+  const preview = document.getElementById('mrOverridePreview');
+  if (!val || isNaN(amount) || amount <= 0) { preview.style.display = 'none'; return; }
+  const ded = amount * 0.10;
+  document.getElementById('mrOpTotal').textContent  = formatPeso(amount);
+  document.getElementById('mrOpDeduct').textContent = formatPeso(ded);
+  document.getElementById('mrOpRemain').textContent = formatPeso(amount - ded);
+  preview.style.display = 'block';
+}
+
+/**
+ * Save the override value to Firebase "monthly_override/<YYYY-MM>".
+ * The listener will fire and re-render automatically.
+ */
+function applyOverride() {
+  const val    = parseFloat(document.getElementById('mrOverrideInput').value);
+  const key    = currentMonthKey();
+  if (isNaN(val) || val <= 0) { toast('Please enter a valid amount greater than 0.', 'warning'); return; }
+
+  setSyncState('sync');
+  // ── WRITE: save override to Firebase ──
+  db.ref('monthly_override/' + key).set(val)
+    .then(() => {
+      toast(`✏️ Override saved for ${monthKeyToLabel(key)}: ${formatPeso(val)}`, 'success');
+      setSyncState('live');
+      if (_overridePanelOpen) toggleOverridePanel();
+    })
+    .catch(err => { toast('Save error: ' + err.message, 'error'); setSyncState('live'); });
+}
+
+/**
+ * Remove the override for the current month from Firebase.
+ * Reverts to computed value from real orders.
+ */
+function clearOverride() {
+  const key = currentMonthKey();
+  if (!_monthlyOverride[key]) { toast('No override set for this month.', 'info'); return; }
+
+  showConfirm(
+    'Clear Override?',
+    `This will remove the manual override for <strong>${monthKeyToLabel(key)}</strong>. The system will revert to computed order data.`,
+    '✏️', 'Yes, Clear Override',
+    () => {
+      setSyncState('sync');
+      db.ref('monthly_override/' + key).remove()
+        .then(() => { toast('Override cleared. Now showing real order data.', 'info'); setSyncState('live'); })
+        .catch(err => { toast('Error: ' + err.message, 'error'); setSyncState('live'); });
+    }
+  );
+}
+
+/* ─────────────────────────────────────────────────
+   SAVE & DELETE
+───────────────────────────────────────────────── */
+
+/**
+ * Save a snapshot of the current month's data to "monthly_reports/<id>".
+ * Records both the computed value AND override (if any) for full auditability.
+ */
+function saveCurrentMonthReport() {
+  // ── READ: get real computed earnings from orders ──
+  const earningsMap = buildMonthlyEarningsMap();
+  const thisMonth   = currentMonthKey();
+  const computed    = earningsMap[thisMonth] || 0;
+
+  // ── OVERRIDE CHECK: apply override if it exists ──
+  const { effective, isOverride } = resolveEarnings(thisMonth, computed);
+
+  if (effective === 0 && computed === 0) {
+    toast('No earnings to save for this month yet.', 'warning');
+    return;
+  }
+
+  const deduction = effective * 0.10;
+  const remaining = effective - deduction;
+  const label     = monthKeyToLabel(thisMonth);
+
+  // Re-use existing id so re-saving the same month just updates it
+  const existing = _monthlyReports.find(r => r.monthKey === thisMonth);
+  const id       = existing ? existing.id : genId();
+
+  const report = {
+    id,
+    monthKey:   thisMonth,
+    monthLabel: label,
+    computed,                              // always the real orders-based value
+    override:   isOverride ? Number(_monthlyOverride[thisMonth]) : null,
+    total:      effective,                 // effective = override ?? computed
+    deduction,
+    remaining,
+    savedAt:    new Date().toISOString()
+  };
+
+  setSyncState('sync');
+  db.ref('monthly_reports/' + id).set(report)
+    .then(() => { toast(`✅ ${label} report saved!`, 'success'); setSyncState('live'); })
+    .catch(err => { toast('Save error: ' + err.message, 'error'); setSyncState('live'); });
+}
+
+/** Delete a saved monthly report snapshot from Firebase. */
+function deleteMonthlyReport(id, label) {
+  showConfirm(
+    'Delete Report?',
+    `Remove saved report for <strong>${label}</strong> from history?`,
+    '🗑', 'Yes, Delete',
+    () => {
+      setSyncState('sync');
+      db.ref('monthly_reports/' + id).remove()
+        .then(() => { toast(`🗑 Report deleted.`, 'info'); setSyncState('live'); })
+        .catch(err => { toast('Error: ' + err.message, 'error'); setSyncState('live'); });
+    }
+  );
+}
+/* ════════════════════════════════════════════════════════════════
+   END MONTHLY EARNINGS LOGIC
+════════════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════════════
    BOOT — attach Firebase listeners immediately on page load.
    The loader hides automatically once all 3 collections have fired
    their first "value" event.
 ════════════════════════════════════════════════════════════════ */
 attachListeners();
+attachMonthlyListener(); // ← NEW: monthly_reports listener (separate node, no collision)
 
 </script>
 </body>
