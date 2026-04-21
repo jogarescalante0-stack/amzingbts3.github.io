@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>TindaTrack — Mini Business System</title>
+<title>Amazing Bites Track — Business System</title>
 
 <!-- ══════════════════════════════════════════════════════
      FIREBASE SDK (Compat version — works with db.ref() API)
@@ -12,37 +12,44 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@700;800&family=Dancing+Script:wght@700&display=swap');
 
 :root {
-  --bg: #f5f3ef;
+  /* ── Amazing Bites brand palette (from logo: deep pink, gold, cream, dark) ── */
+  --bg: #fdf8f5;
   --surface: #ffffff;
-  --border: #e8e4dd;
-  --text: #1a1714;
-  --text-muted: #8a8179;
-  --accent: #c8623a;
-  --accent-light: #f5e8e2;
-  --accent-dark: #a8472a;
-  --green: #3a8a5a;
-  --green-light: #e2f5ea;
-  --red: #c83a3a;
-  --red-light: #f5e2e2;
-  --yellow: #c8a03a;
-  --yellow-light: #f5f0e2;
-  --orange: #d4742a;
+  --border: #f0e4da;
+  --text: #1e1014;
+  --text-muted: #9a7e88;
+  --accent: #c8336a;        /* logo deep pink */
+  --accent-light: #fce8f0;
+  --accent-dark: #a0204f;
+  --green: #2e7d52;
+  --green-light: #e0f5ea;
+  --red: #c03040;
+  --red-light: #fce8e8;
+  --yellow: #b8932a;
+  --yellow-light: #fdf5e0;
+  --orange: #c86030;
   --orange-light: #fdf0e4;
   --blue: #3a5cc8;
   --blue-light: #e8f0fe;
-  --gray: #6e6a65;
-  --gray-light: #f0eee9;
-  --shadow-sm: 0 1px 3px rgba(26,23,20,0.07), 0 1px 2px rgba(26,23,20,0.04);
-  --shadow: 0 4px 16px rgba(26,23,20,0.09), 0 1px 4px rgba(26,23,20,0.05);
-  --shadow-lg: 0 12px 40px rgba(26,23,20,0.13), 0 2px 8px rgba(26,23,20,0.06);
+  --gray: #7a6870;
+  --gray-light: #f5f0f2;
+  --gold: #c9a84c;          /* logo gold trim */
+  --gold-light: #fdf5dc;
+  --pink: #e8789a;          /* logo mid pink */
+  --pink-light: #fef0f5;
+  --sidebar-bg: #1a0a10;    /* near-black with warm red undertone */
+  --shadow-sm: 0 1px 3px rgba(200,51,106,0.08), 0 1px 2px rgba(30,16,20,0.05);
+  --shadow: 0 4px 16px rgba(200,51,106,0.12), 0 1px 4px rgba(30,16,20,0.06);
+  --shadow-lg: 0 12px 40px rgba(200,51,106,0.18), 0 2px 8px rgba(30,16,20,0.08);
   --radius: 14px;
   --radius-sm: 8px;
-  --sidebar-w: 228px;
+  --sidebar-w: 234px;
   --font: 'DM Sans', sans-serif;
   --font-display: 'Playfair Display', serif;
+  --font-script: 'Dancing Script', cursive;
   --transition: 0.2s ease;
 }
 
@@ -55,7 +62,7 @@ ul { list-style: none; }
 
 /* ── FIREBASE LOADING SCREEN ── */
 #firebaseLoader {
-  position: fixed; inset: 0; background: var(--text); z-index: 9999;
+  position: fixed; inset: 0; background: var(--sidebar-bg); z-index: 9999;
   display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 18px;
 }
 #firebaseLoader .loader-logo { font-family: var(--font-display); font-size: 2rem; color: #fff; }
@@ -77,9 +84,9 @@ ul { list-style: none; }
 /* ── LOGIN SCREEN ── */
 #loginScreen {
   display: none; align-items: center; justify-content: center;
-  min-height: 100vh; background: var(--text);
-  background-image: radial-gradient(ellipse at 20% 50%, rgba(200,98,58,0.15) 0%, transparent 60%),
-                    radial-gradient(ellipse at 80% 20%, rgba(200,98,58,0.08) 0%, transparent 50%);
+  min-height: 100vh; background: var(--sidebar-bg);
+  background-image: radial-gradient(ellipse at 20% 50%, rgba(200,51,106,0.20) 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.12) 0%, transparent 50%);
 }
 .login-card {
   background: var(--surface); border-radius: 20px;
@@ -100,15 +107,16 @@ ul { list-style: none; }
 
 /* ── SIDEBAR ── */
 #sidebar {
-  width: var(--sidebar-w); background: var(--text); color: #fff;
+  width: var(--sidebar-w); background: var(--sidebar-bg); color: #fff;
   display: flex; flex-direction: column; position: fixed;
   top: 0; left: 0; bottom: 0; z-index: 100;
   transition: transform 0.3s ease; overflow-y: auto;
 }
-.sidebar-logo { padding: 26px 22px 18px; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0; }
-.sidebar-logo .logo-tag { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); display: block; margin-bottom: 4px; }
-.sidebar-logo h1 { font-family: var(--font-display); font-size: 1.5rem; color: #fff; line-height: 1.1; }
-.sidebar-logo h1 span { color: var(--accent); }
+.sidebar-logo { padding: 22px 20px 16px; border-bottom: 1px solid rgba(201,168,76,0.2); flex-shrink: 0; }
+.sidebar-logo .logo-tag { font-size: 9px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 2px; }
+.sidebar-logo h1 { font-family: var(--font-script); font-size: 1.55rem; color: #fff; line-height: 1.15; }
+.sidebar-logo h1 span { color: var(--gold); }
+.sidebar-logo .logo-sub { font-size: 0.65rem; color: rgba(255,255,255,0.35); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 1px; display: block; }
 .sidebar-nav { padding: 16px 0; flex: 1; }
 .nav-label { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.3); padding: 10px 22px 5px; display: block; }
 .nav-item {
@@ -117,10 +125,10 @@ ul { list-style: none; }
   cursor: pointer; border-left: 3px solid transparent; transition: all var(--transition);
 }
 .nav-item:hover { color: #fff; background: rgba(255,255,255,0.05); }
-.nav-item.active { color: #fff; background: rgba(200,98,58,0.18); border-left-color: var(--accent); }
+.nav-item.active { color: #fff; background: rgba(200,51,106,0.22); border-left-color: var(--gold); }
 .nav-item .icon { font-size: 1.05rem; width: 20px; text-align: center; }
 .nav-badge { margin-left: auto; background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; border-radius: 20px; padding: 1px 7px; min-width: 20px; text-align: center; }
-.sidebar-bottom { padding: 14px 22px 18px; border-top: 1px solid rgba(255,255,255,0.08); flex-shrink: 0; }
+.sidebar-bottom { padding: 14px 22px 18px; border-top: 1px solid rgba(201,168,76,0.15); flex-shrink: 0; }
 .sidebar-user { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; }
 .sidebar-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
 .sidebar-username { font-size: 0.8rem; font-weight: 600; color: #fff; }
@@ -727,13 +735,259 @@ td .btn + .btn { margin-left: 5px; }
 }
 /* Suppress hover highlight on divider rows */
 .order-month-divider:hover { background: transparent !important; }
+
+/* ══════════════════════════════════════════════════
+   NEW: PROFIT / TIGHTS DASHBOARD CARDS
+══════════════════════════════════════════════════ */
+.profit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.profit-divider {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-muted);
+  padding: 16px 0 8px; border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+
+/* ══════════════════════════════════════════════════
+   NEW: RESELLERS SECTION
+══════════════════════════════════════════════════ */
+.reseller-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.reseller-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow var(--transition);
+}
+.reseller-card:hover { box-shadow: var(--shadow); }
+.reseller-card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.reseller-card-name {
+  font-weight: 700; font-size: 0.95rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.reseller-card-actions { display: flex; gap: 6px; }
+.reseller-card-body { padding: 12px 16px; }
+.reseller-stats {
+  display: flex; gap: 12px; margin-bottom: 10px;
+  font-size: 0.78rem;
+}
+.reseller-stat { text-align: center; flex: 1; }
+.reseller-stat-val { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+.reseller-stat-label { color: var(--text-muted); font-size: 0.7rem; margin-top: 2px; }
+.reseller-orders-title {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.reseller-order-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 0.82rem;
+  gap: 8px;
+}
+.reseller-order-row:last-child { border-bottom: none; }
+.reseller-order-info { flex: 1; }
+.reseller-order-product { font-weight: 600; }
+.reseller-order-detail { color: var(--text-muted); font-size: 0.74rem; margin-top: 2px; }
+.reseller-order-right { text-align: right; flex-shrink: 0; }
+.reseller-order-total { font-weight: 700; color: var(--green); }
+.reseller-order-profit { font-size: 0.72rem; color: var(--accent); }
+.reseller-empty {
+  color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 12px 0;
+}
+.reseller-add-order {
+  width: 100%; margin-top: 10px;
+  background: var(--accent-light); color: var(--accent);
+  border: 1.5px dashed rgba(200,98,58,0.35);
+  border-radius: var(--radius-sm); padding: 7px 12px;
+  font-size: 0.8rem; font-weight: 600; cursor: pointer;
+  transition: all var(--transition);
+}
+.reseller-add-order:hover { background: var(--accent); color: #fff; border-style: solid; }
+
+/* ── Reseller order status & Done button ── */
+.reseller-order-status {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 20px; font-size: 0.68rem; font-weight: 700;
+}
+.reseller-order-status.pending   { background: var(--gray-light);  color: var(--gray); }
+.reseller-order-status.completed { background: var(--green-light); color: var(--green); }
+.reseller-order-row { flex-wrap: wrap; gap: 6px; }
+.reseller-order-actions { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+
+/* ── Reseller monthly earnings on dashboard ── */
+.reseller-month-block {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 10px;
+}
+.reseller-month-block-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+.reseller-month-block-label {
+  font-size: 0.75rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px;
+}
+.reseller-month-row {
+  display: flex; justify-content: space-between; font-size: 0.8rem;
+  padding: 3px 0; color: var(--text-muted);
+}
+.reseller-month-row strong { color: var(--text); }
+
+/* ══════════════════════════════════════════════════
+   PUHUNAN SECTION STYLES
+══════════════════════════════════════════════════ */
+.puhunan-form-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px;
+  box-shadow: var(--shadow-sm); margin-bottom: 24px;
+}
+.puhunan-form-card h3 { font-family: var(--font-display); font-size: 1rem; margin-bottom: 16px; }
+.puhunan-month-group { margin-bottom: 28px; }
+.puhunan-month-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 10px;
+}
+.puhunan-month-label { font-size: 0.82rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.puhunan-month-total { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--red); }
+.puhunan-entry-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  margin-bottom: 7px; transition: box-shadow var(--transition);
+}
+.puhunan-entry-row:hover { box-shadow: var(--shadow-sm); }
+.puhunan-entry-icon {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: var(--red-light); color: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.puhunan-entry-info { flex: 1; min-width: 0; }
+.puhunan-entry-desc { font-weight: 600; font-size: 0.87rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.puhunan-entry-date { font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; }
+.puhunan-entry-amount { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--red); white-space: nowrap; }
+.net-profit-banner {
+  background: linear-gradient(135deg, var(--green-light) 0%, #d4f0e0 100%);
+  border: 1.5px solid rgba(58,138,90,0.25); border-radius: var(--radius);
+  padding: 18px 22px; display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;
+}
+.nbp-main .nbp-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+.nbp-main .nbp-value { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--green); line-height: 1; }
+.nbp-main .nbp-formula { font-size: 0.75rem; color: var(--green); opacity: 0.7; margin-top: 4px; }
+.nbp-breakdown { display: flex; gap: 20px; flex-wrap: wrap; }
+.nbp-item { text-align: center; }
+.nbp-item-val { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; }
+.nbp-item-lbl { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ══════════════════════════════════════════════════
+   MONTHLY PER-MONTH CARDS (new separated layout)
+══════════════════════════════════════════════════ */
+.month-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: box-shadow var(--transition);
+}
+.month-card:hover { box-shadow: var(--shadow); }
+.month-card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px 12px;
+  background: linear-gradient(135deg, var(--accent-light) 0%, var(--pink-light) 100%);
+  border-bottom: 1.5px solid var(--border);
+}
+.month-card-title {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--text);
+}
+.month-card-badge {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: .5px;
+  padding: 3px 9px; border-radius: 20px;
+  background: var(--accent); color: #fff;
+}
+.month-card-body {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+.month-stat {
+  padding: 16px 18px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.month-stat:last-child { border-right: none; }
+.month-stat-label {
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;
+}
+.month-stat-value {
+  font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; line-height: 1;
+}
+.month-stat-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+.month-stat.is-sales .month-stat-value  { color: var(--green); }
+.month-stat.is-puh   .month-stat-value  { color: var(--red); }
+.month-stat.is-net   .month-stat-value  { color: var(--accent); }
+.month-stat.is-net.negative .month-stat-value { color: var(--red); }
+.month-card-orders {
+  padding: 0 20px 14px;
+  border-top: 1px solid var(--border);
+  margin-top: 0;
+}
+.month-order-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+}
+.month-order-row:last-child { border-bottom: none; }
+.month-orders-toggle {
+  width: 100%; background: none; border: none;
+  font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
+  padding: 8px 20px; text-align: left; cursor: pointer;
+  border-top: 1px solid var(--border);
+  transition: color var(--transition);
+  display: flex; align-items: center; gap: 6px;
+}
+.month-orders-toggle:hover { color: var(--accent); }
+.month-empty {
+  padding: 40px; text-align: center; color: var(--text-muted); font-size: 0.85rem;
+}
+
+/* ══════════════════════════════════════════════════
+   AMAZING BITES LOGIN BRANDING
+══════════════════════════════════════════════════ */
+.login-logo h1 { font-family: var(--font-script); font-size: 2.1rem; color: var(--text); }
+.login-logo h1 span { color: var(--accent); }
+.login-logo .brand-sub {
+  font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-muted); margin-top: 3px; display: block;
+}
+.loader-logo { font-family: var(--font-script); font-size: 2rem; color: #fff; }
+.loader-logo span { color: var(--gold); }
 </style>
 </head>
 <body>
 
 <!-- ══ FIREBASE LOADING SCREEN (shown until DB data is ready) ══ -->
 <div id="firebaseLoader">
-  <div class="loader-logo">Tinda<span>Track</span></div>
+  <div class="loader-logo">Amazing <span>Bites</span></div>
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
   <div class="loader-msg" id="loaderMsg">Connecting to database…</div>
 </div>
@@ -743,8 +997,9 @@ td .btn + .btn { margin-left: 5px; }
   <div class="login-card">
     <div class="login-logo">
       <span class="tag">Food Business System</span>
-      <h1>Tinda<span>Track</span></h1>
-      <p>Admin access required to continue</p>
+      <h1>Amazing <span>Bites</span></h1>
+      <span class="brand-sub">Cooking with Calling</span>
+      <p style="margin-top:8px">Admin access required to continue</p>
     </div>
     <div class="login-error" id="loginError">❌ Invalid username or password.</div>
     <div class="form-group">
@@ -756,7 +1011,7 @@ td .btn + .btn { margin-left: 5px; }
       <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
     </div>
     <button class="btn btn-primary" style="width:100%;justify-content:center;padding:11px" onclick="doLogin()">🔐 Login</button>
-    <div class="login-footer">TindaTrack v3.0 &nbsp;·&nbsp; Firebase Real-Time &nbsp;·&nbsp; &copy; 2025</div>
+    <div class="login-footer">Amazing Bites Track v4.0 &nbsp;·&nbsp; Firebase Real-Time &nbsp;·&nbsp; &copy; 2025</div>
   </div>
 </div>
 
@@ -772,8 +1027,9 @@ td .btn + .btn { margin-left: 5px; }
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
   <nav id="sidebar">
     <div class="sidebar-logo">
-      <span class="logo-tag">Food Business</span>
-      <h1>Tinda<span>Track</span></h1>
+      <span class="logo-tag">🍽️ Food Business</span>
+      <h1>Amazing <span>Bites</span></h1>
+      <span class="logo-sub">Cooking with Calling</span>
     </div>
     <div class="sidebar-nav">
       <span class="nav-label">Menu</span>
@@ -788,6 +1044,8 @@ td .btn + .btn { margin-left: 5px; }
       <!-- ══ NEW: Monthly Earnings nav item ══ -->
       <span class="nav-label" style="margin-top:6px">Finance</span>
       <div class="nav-item" data-section="monthly" onclick="navigate('monthly')"><span class="icon">💵</span> Monthly Earnings</div>
+      <div class="nav-item" data-section="resellers" onclick="navigate('resellers')"><span class="icon">🤝</span> Resellers<span class="nav-badge" id="badgeResellers">0</span></div>
+      <div class="nav-item" data-section="puhunan" onclick="navigate('puhunan')"><span class="icon">💸</span> Puhunan</div>
     </div>
     <div class="sidebar-bottom">
       <div class="sidebar-user">
@@ -798,7 +1056,7 @@ td .btn + .btn { margin-left: 5px; }
         </div>
       </div>
       <button class="btn-logout" onclick="doLogout()">🚪 Logout</button>
-      <div class="sidebar-footer">&copy; 2025 TindaTrack · v3.0 Firebase</div>
+      <div class="sidebar-footer">&copy; 2025 Amazing Bites Track · v4.0</div>
     </div>
   </nav>
 
@@ -829,9 +1087,18 @@ td .btn + .btn { margin-left: 5px; }
       <!-- ══ DASHBOARD ══ -->
       <div id="sec-dashboard" class="section active">
         <div class="section-header">
-          <div><h2>Good day! 👋</h2><p>Here's your business snapshot for today.</p></div>
+          <div><h2>Good day! 🍽️</h2><p>Here's your Amazing Bites business snapshot for today.</p></div>
         </div>
         <div class="stat-grid" id="dashStats"></div>
+        <!-- NET PROFIT BANNER -->
+        <div id="dashNetProfitBanner"></div>
+        <!-- Profit Breakdown -->
+        <div class="profit-divider">💹 Profit Breakdown (Regular Sales)</div>
+        <div class="profit-grid" id="dashProfitStats"></div>
+        <div class="profit-divider">🤝 Reseller Sales Breakdown</div>
+        <div class="profit-grid" id="dashResellerStats"></div>
+        <div class="profit-divider" id="dashResellerMonthlyDivider" style="display:none">📅 Reseller Earnings by Month</div>
+        <div id="dashResellerMonthly"></div>
         <div id="dashAlerts"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" id="dashBottom">
           <div class="card">
@@ -881,7 +1148,7 @@ td .btn + .btn { margin-left: 5px; }
         </div>
         <div class="card" style="padding:0;overflow:hidden">
           <div class="table-wrap">
-            <table><thead><tr><th>Product Name</th><th>Price</th><th>Stock</th><th>Status</th><th style="text-align:center">Actions</th></tr></thead>
+            <table><thead><tr><th>Product Name</th><th>Price</th><th>Cost (Puhunan)</th><th>Stock</th><th>Status</th><th style="text-align:center">Actions</th></tr></thead>
             <tbody id="productTableBody"></tbody></table>
           </div>
           <div id="productEmptyState" class="empty-state" style="display:none"><div class="empty-icon">🫙</div><h4>No products yet</h4><p>Click "Add Product" to get started.</p></div>
@@ -952,128 +1219,82 @@ td .btn + .btn { margin-left: 5px; }
         <div class="section-header">
           <div>
             <h2>Monthly Earnings 💵</h2>
-            <p>Live from Firebase orders data. 10% deduction auto-computed. Override available below.</p>
-          </div>
-          <button class="btn btn-primary" onclick="saveCurrentMonthReport()">💾 Save This Month</button>
-        </div>
-
-        <!-- ── DATA SOURCE NOTICE ── -->
-        <div class="mr-source-notice" id="mrSourceNotice">
-          <!-- filled by renderMonthlyReport() — shows if override is active -->
-        </div>
-
-        <!-- ── CURRENT MONTH SUMMARY CARDS ── -->
-        <!-- Values come from real completed orders in Firebase, unless override is active -->
-        <div class="mr-current-grid" id="mrCurrentGrid">
-          <div class="mr-card mr-total">
-            <div class="mr-card-icon">💰</div>
-            <div class="mr-card-label">Total Earnings</div>
-            <div class="mr-card-value" id="mrTotalEarnings">₱0.00</div>
-            <div class="mr-card-sub" id="mrCurrentMonth">—</div>
-            <!-- small "computed" or "override" tag shown dynamically -->
-            <div class="mr-source-tag" id="mrSourceTag">📊 From orders</div>
-          </div>
-          <div class="mr-card mr-deduct">
-            <div class="mr-card-icon">🔻</div>
-            <div class="mr-card-label">10% Deduction</div>
-            <div class="mr-card-value" id="mrDeduction">₱0.00</div>
-            <div class="mr-card-sub">Capital / savings set-aside</div>
-          </div>
-          <div class="mr-card mr-net">
-            <div class="mr-card-icon">✅</div>
-            <div class="mr-card-label">Remaining Balance</div>
-            <div class="mr-card-value" id="mrRemaining">₱0.00</div>
-            <div class="mr-card-sub">After 10% deduction</div>
+            <p>Each month is shown separately. Puhunan is auto-deducted to compute Net Profit.</p>
           </div>
         </div>
 
-        <!-- ── OVERRIDE PANEL ── -->
-        <!-- Lets the user manually set this month's earnings. Saved to Firebase as monthly_override/<YYYY-MM> -->
-        <div class="mr-override-panel" id="mrOverridePanel">
-          <div class="mr-override-header">
-            <span>✏️ Manual Override — <span id="mrOverrideMonth">—</span></span>
-            <button class="btn btn-outline btn-sm" onclick="toggleOverridePanel()">
-              <span id="mrOverrideToggleLabel">Edit Earnings</span>
-            </button>
-          </div>
-          <div class="mr-override-body" id="mrOverrideBody" style="display:none">
-            <p class="mr-override-hint">
-              Override replaces the computed value for this month. Leave blank or set to 0 to remove the override and revert to real order data.
-            </p>
-            <div class="mr-override-row">
-              <div class="form-group" style="flex:1;margin-bottom:0">
-                <label>Override Amount (₱)</label>
-                <input type="number" id="mrOverrideInput" placeholder="e.g. 1500" min="0" step="0.01"
-                  oninput="previewOverride(this.value)"/>
-              </div>
-              <div class="mr-override-preview" id="mrOverridePreview" style="display:none">
-                <div class="mr-op-row"><span>Total (override)</span><strong id="mrOpTotal">—</strong></div>
-                <div class="mr-op-row"><span>10% Deduction</span><strong id="mrOpDeduct" style="color:var(--red)">—</strong></div>
-                <div class="mr-op-row"><span>Remaining</span><strong id="mrOpRemain" style="color:var(--accent)">—</strong></div>
-              </div>
-            </div>
-            <div style="display:flex;gap:8px;margin-top:12px">
-              <button class="btn btn-primary btn-sm" onclick="applyOverride()">💾 Save Override</button>
-              <button class="btn btn-del btn-sm" onclick="clearOverride()">✕ Clear Override</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- ── ALL MONTHS BREAKDOWN (from live orders) ── -->
-        <!-- Always computed from the real orders data in Firebase cache (_orders) -->
-        <div class="an-divider" style="margin-top:28px">📊 All Months — Live from Orders</div>
-        <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px">
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Month</th>
-                  <th>Completed Orders</th>
-                  <th>Computed Earnings</th>
-                  <th>Override</th>
-                  <th>Effective Earnings</th>
-                  <th>10% Deduction</th>
-                  <th>Remaining Balance</th>
-                </tr>
-              </thead>
-              <tbody id="mrBreakdownBody"></tbody>
-            </table>
-          </div>
-          <div id="mrBreakdownEmpty" class="empty-state" style="display:none">
-            <div class="empty-icon">💵</div>
-            <h4>No completed orders yet</h4>
-            <p>Earnings will appear here once orders are marked as Completed.</p>
-          </div>
-        </div>
-
-        <!-- ── SAVED HISTORY from Firebase "monthly_reports" ── -->
-        <div class="an-divider">📂 Saved Monthly Reports History</div>
-        <div class="card" style="padding:0;overflow:hidden">
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Month</th>
-                  <th>Computed</th>
-                  <th>Override</th>
-                  <th>Effective Earnings</th>
-                  <th>10% Deduction</th>
-                  <th>Final Amount</th>
-                  <th>Saved On</th>
-                  <th style="text-align:center">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="mrHistoryBody"></tbody>
-            </table>
-          </div>
-          <div id="mrHistoryEmpty" class="empty-state" style="display:none">
-            <div class="empty-icon">📂</div>
-            <h4>No saved reports yet</h4>
-            <p>Click "Save This Month" to record the current month's report to Firebase.</p>
+        <!-- ── PER-MONTH CARDS (filled by renderMonthlyReport) ── -->
+        <div id="monthlyCardsContainer">
+          <div class="month-empty" id="monthlyEmpty" style="display:none">
+            <div style="font-size:2.5rem;margin-bottom:10px">💵</div>
+            <strong>No completed orders yet</strong>
+            <p style="margin-top:6px;font-size:0.8rem">Earnings will appear here once orders are marked as Completed.</p>
           </div>
         </div>
       </div>
       <!-- ══ END MONTHLY EARNINGS ══ -->
+
+      <!-- ══ NEW: RESELLERS ══ -->
+      <div id="sec-resellers" class="section">
+        <div class="section-header">
+          <div><h2>Resellers 🤝</h2><p>Manage resellers and their orders with custom pricing.</p></div>
+          <button class="btn btn-primary" onclick="openResellerModal()">＋ Add Reseller</button>
+        </div>
+        <!-- Summary Stats -->
+        <div class="profit-grid" id="resellerSummaryStats"></div>
+        <!-- Reseller Cards Grid -->
+        <div class="reseller-grid" id="resellerGrid"></div>
+        <div id="resellerEmpty" class="empty-state" style="display:none">
+          <div class="empty-icon">🤝</div>
+          <h4>No resellers yet</h4>
+          <p>Click "Add Reseller" to register your first reseller.</p>
+        </div>
+      </div>
+      <!-- ══ END RESELLERS ══ -->
+
+      <!-- ══ PUHUNAN (CAPITAL EXPENSES) ══ -->
+      <div id="sec-puhunan" class="section">
+        <div class="section-header">
+          <div>
+            <h2>Puhunan 💸</h2>
+            <p>Record your capital expenses. These are deducted from sales to calculate Net Profit.</p>
+          </div>
+        </div>
+
+        <!-- Net Profit Summary Banner -->
+        <div id="puhunanNetBanner"></div>
+
+        <!-- Add Entry Form -->
+        <div class="puhunan-form-card">
+          <h3>➕ Add Puhunan Entry</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Amount (₱)</label>
+              <input type="number" id="puhunanAmount" placeholder="e.g. 500" min="0" step="0.01"/>
+            </div>
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" id="puhunanDate"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Description (optional)</label>
+            <input type="text" id="puhunanDesc" placeholder="e.g. Chicken supply, Packaging materials…"/>
+          </div>
+          <button class="btn btn-primary" onclick="addPuhunan()">💾 Save Entry</button>
+        </div>
+
+        <!-- Monthly History -->
+        <div class="an-divider">📅 Monthly Puhunan History</div>
+        <div id="puhunanHistory">
+          <div class="empty-state" id="puhunanEmpty" style="display:none">
+            <div class="empty-icon">💸</div>
+            <h4>No puhunan entries yet</h4>
+            <p>Add your first capital expense above.</p>
+          </div>
+        </div>
+      </div>
+      <!-- ══ END PUHUNAN ══ -->
 
     </div><!-- /content -->
   </div><!-- /main -->
@@ -1090,6 +1311,9 @@ td .btn + .btn { margin-left: 5px; }
       <div class="form-group"><label>Product Name</label><input type="text" id="productName" placeholder="e.g. Chicken Pastil"/></div>
       <div class="form-row">
         <div class="form-group"><label>Price (₱)</label><input type="number" id="productPrice" placeholder="e.g. 150" min="0" step="0.01"/></div>
+        <div class="form-group"><label>Cost / Puhunan (₱)</label><input type="number" id="productCost" placeholder="e.g. 80" min="0" step="0.01"/></div>
+      </div>
+      <div class="form-row">
         <div class="form-group"><label>Stock Qty</label><input type="number" id="productStock" placeholder="e.g. 20" min="0"/></div>
       </div>
     </div>
@@ -1149,6 +1373,55 @@ td .btn + .btn { margin-left: 5px; }
   </div>
 </div>
 
+<!-- ══ NEW MODAL: ADD/EDIT RESELLER ══ -->
+<div class="modal-overlay" id="resellerModal">
+  <div class="modal">
+    <div class="modal-header"><h3 id="resellerModalTitle">Add Reseller</h3><button class="modal-close" onclick="closeResellerModal()">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editResellerId"/>
+      <div class="form-group"><label>Reseller Name</label><input type="text" id="resellerName" placeholder="e.g. Aling Nena"/></div>
+      <div class="form-group"><label>Contact (optional)</label><input type="text" id="resellerContact" placeholder="e.g. 09xx-xxx-xxxx"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeResellerModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveReseller()">Save Reseller</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NEW MODAL: ADD RESELLER ORDER ══ -->
+<div class="modal-overlay" id="resellerOrderModal">
+  <div class="modal">
+    <div class="modal-header"><h3>Add Reseller Order</h3><button class="modal-close" onclick="closeResellerOrderModal()">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="roResellerId"/>
+      <div class="form-group"><label>Reseller</label><input type="text" id="roResellerName" readonly style="background:var(--bg);color:var(--text-muted)"/></div>
+      <div class="form-group">
+        <label>Product</label>
+        <select id="roProduct" onchange="updateResellerOrderPreview()">
+          <option value="">— Select a product —</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Quantity</label><input type="number" id="roQty" value="1" min="1" oninput="updateResellerOrderPreview()"/></div>
+        <div class="form-group"><label>Reseller Price (₱) <span style="color:var(--text-muted);font-size:0.7rem">— price you give reseller</span></label><input type="number" id="roPrice" placeholder="e.g. 140" min="0" step="0.01" oninput="updateResellerOrderPreview()"/></div>
+      </div>
+      <div id="roPreview" class="price-preview" style="display:none">
+        <span class="label">Order Total</span>
+        <span class="amount" id="roTotal">₱0.00</span>
+      </div>
+      <div id="roProfitPreview" style="display:none;margin-top:8px;background:var(--green-light);border:1px solid rgba(58,138,90,0.2);border-radius:var(--radius-sm);padding:10px 14px;font-size:0.82rem;color:var(--green)">
+        <strong>Your Profit:</strong> <span id="roProfitAmt">₱0.00</span>
+        <span style="color:var(--text-muted);font-size:0.75rem;margin-left:6px">(Original Price − Reseller Price) × Qty</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeResellerOrderModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="addResellerOrder()">Add Order</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ CONFIRM MODAL ══ -->
 <div class="modal-overlay" id="confirmModal">
   <div class="modal confirm-modal">
@@ -1204,10 +1477,14 @@ const ADMIN_PASS = 'admin123';
 let _products  = [];
 let _orders    = [];
 let _customers = [];
+// NEW: resellers cache
+let _resellers = [];
+// NEW: puhunan (capital) cache
+let _puhunan   = [];
 
 // Track how many of the 3 collections have loaded for the first time
 let _loadedCount = 0;
-const _TOTAL_COLLECTIONS = 3;
+const _TOTAL_COLLECTIONS = 5; // products, orders, customers, resellers, puhunan
 
 /* ════════════════════════════════════════════════════════════════
    UTILITY
@@ -1229,6 +1506,8 @@ function objToArray(obj) {
 function getProducts()  { return _products; }
 function getOrders()    { return _orders; }
 function getCustomers() { return _customers; }
+function getResellers() { return _resellers; } // NEW
+function getPuhunan()   { return _puhunan; }   // NEW
 
 /* ════════════════════════════════════════════════════════════════
    DATA WRITERS (write to Firebase — listeners will update cache)
@@ -1302,6 +1581,24 @@ function attachListeners() {
     console.error('[Firebase] customers listener error:', err);
     toast('Could not load customers: ' + err.message, 'error');
   });
+
+  // ── NEW: Resellers listener ──
+  db.ref('resellers').on('value', snapshot => {
+    _resellers = objToArray(snapshot.val());
+    onCollectionLoaded('resellers');
+  }, err => {
+    console.error('[Firebase] resellers listener error:', err);
+    toast('Could not load resellers: ' + err.message, 'error');
+  });
+
+  // ── NEW: Puhunan listener ──
+  db.ref('puhunan').on('value', snapshot => {
+    _puhunan = objToArray(snapshot.val());
+    onCollectionLoaded('puhunan');
+  }, err => {
+    console.error('[Firebase] puhunan listener error:', err);
+    toast('Could not load puhunan: ' + err.message, 'error');
+  });
 }
 
 /**
@@ -1337,6 +1634,8 @@ function onCollectionLoaded(key) {
     products:  ['products', 'inventory'],
     orders:    ['orders', 'reports', 'customers', 'analytics'],
     customers: ['customers'],
+    resellers: ['resellers', 'dashboard'],
+    puhunan:   ['puhunan', 'dashboard', 'monthly'],
   };
   const affected = sectionMap[key] || [];
   if (affected.includes(currentSection)) {
@@ -1512,6 +1811,8 @@ function doLogout() {
     db.ref('products').off();
     db.ref('orders').off();
     db.ref('customers').off();
+    db.ref('resellers').off();
+    db.ref('puhunan').off();
     document.getElementById('appShell').classList.remove('visible');
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('loginUser').value = '';
@@ -1587,10 +1888,12 @@ function statusSelect(orderId, currentStatus) {
 ════════════════════════════════════════════════════════════════ */
 let currentSection = 'dashboard';
 const sectionTitles = {
-  dashboard: 'Dashboard', products: 'Products', orders: 'Orders',
+  dashboard: 'Dashboard 🍽️', products: 'Products', orders: 'Orders',
   inventory: 'Inventory', reports: 'Daily Report', customers: 'Customers',
   analytics: 'Sales Analytics',
-  monthly: 'Monthly Earnings'   // ← NEW
+  monthly:    'Monthly Earnings',
+  resellers:  'Resellers',
+  puhunan:    'Puhunan'
 };
 let orderFilter = 'all';
 
@@ -1616,7 +1919,9 @@ function renderSection(id) {
     reports:   renderReports,
     customers: renderCustomers,
     analytics: renderAnalytics,
-    monthly:   renderMonthlyReport,   // ← NEW
+    monthly:   renderMonthlyReport,
+    resellers: renderResellers,
+    puhunan:   renderPuhunan,
   };
   fns[id]?.();
 }
@@ -1675,6 +1980,7 @@ document.getElementById('confirmOkBtn').addEventListener('click', () => {
 function updateBadges() {
   document.getElementById('badgeOrders').textContent    = getOrders().filter(o => o.status !== 'cancelled').length;
   document.getElementById('badgeCustomers').textContent = getCustomers().length;
+  document.getElementById('badgeResellers').textContent = getResellers().length;
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -1763,6 +2069,9 @@ function renderDashboard() {
     ? sorted.map(([name,rev]) => `<div class="dash-row"><div class="dash-row-name">🫙 ${name}</div><div class="dash-row-amount" style="color:var(--green)">${formatPeso(rev)}</div></div>`).join('')
     : '<div style="color:var(--text-muted);font-size:.82rem;padding:14px 0;text-align:center">No completed sales yet.</div>';
 
+  // NEW: render profit breakdown and reseller stats
+  updateProfitStats();
+  updateResellerStats();
   updateBadges();
 }
 
@@ -1786,6 +2095,7 @@ function renderProducts(search = '') {
     return `<tr>
       <td class="td-name">🫙 ${p.name}</td>
       <td><strong>${formatPeso(p.price)}</strong></td>
+      <td><strong style="color:var(--blue)">${p.cost ? formatPeso(p.cost) : '<span style="color:var(--text-muted)">—</span>'}</strong></td>
       <td><strong>${p.stock}</strong> <span style="color:var(--text-muted);font-size:.74rem">units</span></td>
       <td>${stockBadge}</td>
       <td style="text-align:center;white-space:nowrap">
@@ -1799,6 +2109,7 @@ function openProductModal() {
   document.getElementById('editProductId').value = '';
   document.getElementById('productName').value   = '';
   document.getElementById('productPrice').value  = '';
+  document.getElementById('productCost').value   = '';
   document.getElementById('productStock').value  = '';
   document.getElementById('productModalTitle').textContent = 'Add New Product';
   document.getElementById('productModal').classList.add('open');
@@ -1811,6 +2122,7 @@ function openEditProduct(id) {
   document.getElementById('editProductId').value = id;
   document.getElementById('productName').value   = p.name;
   document.getElementById('productPrice').value  = p.price;
+  document.getElementById('productCost').value   = p.cost || '';
   document.getElementById('productStock').value  = p.stock;
   document.getElementById('productModalTitle').textContent = 'Edit Product';
   document.getElementById('productModal').classList.add('open');
@@ -1824,6 +2136,7 @@ function saveProduct() {
   const id    = document.getElementById('editProductId').value;
   const name  = document.getElementById('productName').value.trim();
   const price = parseFloat(document.getElementById('productPrice').value);
+  const cost  = parseFloat(document.getElementById('productCost').value) || 0;
   const stock = parseInt(document.getElementById('productStock').value);
   if (!name)                      { toast('Product name is required.', 'error'); return; }
   if (isNaN(price) || price < 0)  { toast('Enter a valid price.', 'error'); return; }
@@ -1831,15 +2144,14 @@ function saveProduct() {
 
   let products = getProducts();
   if (id) {
-    products = products.map(p => p.id === id ? { ...p, name, price, stock } : p);
+    products = products.map(p => p.id === id ? { ...p, name, price, cost, stock } : p);
     toast(`"${name}" updated!`, 'success');
   } else {
-    products.push({ id: genId(), name, price, stock });
+    products.push({ id: genId(), name, price, cost, stock });
     toast(`"${name}" added!`, 'success');
   }
   saveProducts(products);
   closeProductModal();
-  // UI will auto-update via the Firebase listener
 }
 
 function confirmDeleteProduct(id, name) {
@@ -2627,287 +2939,848 @@ function currentMonthKey() {
  * Render the entire Monthly Earnings section.
  * Called when navigating to the section or when Firebase data changes.
  */
-function renderMonthlyReport() {
-  // ── Step 1: compute earnings map from real orders data ──
-  const earningsMap = buildMonthlyEarningsMap();
-  const thisMonth   = currentMonthKey();
-
-  // ── Step 2: resolve effective total (override wins if set) ──
-  const computed              = earningsMap[thisMonth] || 0;
-  const { effective, isOverride } = resolveEarnings(thisMonth, computed);
-
-  // ── Step 3: derive deduction & remaining from effective value ──
-  const deduction = effective * 0.10;
-  const remaining = effective - deduction;
-
-  // ── Step 4: update summary cards ──
-  document.getElementById('mrTotalEarnings').textContent = formatPeso(effective);
-  document.getElementById('mrDeduction').textContent     = formatPeso(deduction);
-  document.getElementById('mrRemaining').textContent     = formatPeso(remaining);
-  document.getElementById('mrCurrentMonth').textContent  = monthKeyToLabel(thisMonth);
-
-  // source tag on the total card
-  const srcTag = document.getElementById('mrSourceTag');
-  if (isOverride) {
-    srcTag.textContent = '✏️ Override active';
-    srcTag.className   = 'mr-source-tag is-override';
-  } else {
-    srcTag.textContent = '📊 From orders';
-    srcTag.className   = 'mr-source-tag';
-  }
-
-  // ── Step 5: update the source notice banner ──
-  const notice = document.getElementById('mrSourceNotice');
-  if (isOverride) {
-    notice.className   = 'mr-source-notice is-override';
-    notice.innerHTML   = `⚠️ Override active for ${monthKeyToLabel(thisMonth)}: ₱${Number(_monthlyOverride[thisMonth]).toLocaleString('en-PH', {minimumFractionDigits:2})} &nbsp;|&nbsp; Computed from orders: ${formatPeso(computed)}`;
-  } else {
-    notice.className   = 'mr-source-notice is-computed';
-    notice.innerHTML   = `✅ Showing real order data — ${formatPeso(computed)} computed from ${(earningsMap[thisMonth] !== undefined ? getOrders().filter(o => o.status==='completed' && o.date && o.date.startsWith(thisMonth)).length : 0)} completed order(s) this month.`;
-  }
-
-  // ── Step 6: pre-fill override input with current override (if any) ──
-  const ovInput = document.getElementById('mrOverrideInput');
-  const curOv   = _monthlyOverride[thisMonth];
-  ovInput.value  = (curOv && Number(curOv) > 0) ? Number(curOv) : '';
-  document.getElementById('mrOverrideMonth').textContent = monthKeyToLabel(thisMonth);
-  document.getElementById('mrOverridePreview').style.display = 'none';
-
-  // ── Step 7: render all-months breakdown table ──
-  renderMonthlyBreakdown(earningsMap, thisMonth);
-
-  // ── Step 8: render saved history ──
-  renderMonthlyHistory();
-}
-
 /**
- * Render the all-months breakdown table.
- * Shows computed earnings, any override, effective total, deduction, remaining.
+ * NEW: renderMonthlyReport — renders each month as its own card.
+ * Shows: Sales, Puhunan, Net Profit. NO tights. NO 10%. NO override.
+ * Groups all completed orders + puhunan entries by YYYY-MM.
  */
-function renderMonthlyBreakdown(earningsMap, thisMonth) {
-  const tbody   = document.getElementById('mrBreakdownBody');
-  const emptyEl = document.getElementById('mrBreakdownEmpty');
+function renderMonthlyReport() {
+  const container = document.getElementById('monthlyCardsContainer');
+  const emptyEl   = document.getElementById('monthlyEmpty');
+  if (!container) return;
 
-  // Gather all months that have either real orders or a saved override
-  const allMonths = new Set([
-    ...Object.keys(earningsMap),
-    ...Object.keys(_monthlyOverride).filter(k => Number(_monthlyOverride[k]) > 0)
-  ]);
-  const months = [...allMonths].sort().reverse();
+  // ── Build month keys from completed orders AND puhunan entries ──
+  const completedOrders = getOrders().filter(o => o.status === 'completed' && o.date);
+  const puhunanEntries  = getPuhunan().filter(e => e.date);
+
+  const monthSet = new Set();
+  completedOrders.forEach(o => monthSet.add(o.date.slice(0, 7)));
+  puhunanEntries.forEach(e  => monthSet.add(e.date.slice(0, 7)));
+
+  const months = [...monthSet].sort().reverse(); // newest first
 
   if (months.length === 0) {
-    tbody.innerHTML = '';
-    emptyEl.style.display = 'flex';
+    container.innerHTML = '';
+    container.appendChild(emptyEl);
+    emptyEl.style.display = 'block';
     return;
   }
   emptyEl.style.display = 'none';
 
-  // Count completed orders per month for display
-  const orderCountMap = {};
-  getOrders()
-    .filter(o => o.status === 'completed' && o.date)
-    .forEach(o => {
-      const k = o.date.slice(0, 7);
-      orderCountMap[k] = (orderCountMap[k] || 0) + 1;
-    });
+  // ── Build per-month data ──
+  const thisMonth = currentMonthKey();
 
-  tbody.innerHTML = months.map(key => {
-    const computed              = earningsMap[key] || 0;
-    const { effective, isOverride } = resolveEarnings(key, computed);
-    const deduction = effective * 0.10;
-    const remaining = effective - deduction;
-    const isThis    = key === thisMonth;
-    const rowStyle  = isThis ? 'style="background:var(--green-light)"' : '';
-    const count     = orderCountMap[key] || 0;
+  container.innerHTML = months.map(key => {
+    const label = monthKeyToLabel(key);
+    const isCurrent = key === thisMonth;
 
-    const monthLabel = monthKeyToLabel(key) +
-      (isThis ? ' <span class="badge badge-green" style="font-size:10px;vertical-align:middle">Current</span>' : '');
+    // Sales for this month (completed orders only)
+    const monthOrders = completedOrders.filter(o => o.date.slice(0, 7) === key);
+    const totalSales  = monthOrders.reduce((s, o) => s + (Number(o.total) || 0), 0);
 
-    const overrideCell = isOverride
-      ? `<span style="color:var(--yellow);font-weight:700">${formatPeso(Number(_monthlyOverride[key]))}</span> <span class="badge badge-yellow" style="font-size:9px">override</span>`
-      : `<span style="color:var(--text-muted);font-size:0.78rem">—</span>`;
+    // Puhunan for this month
+    const monthPuh    = puhunanEntries.filter(e => e.date.slice(0, 7) === key);
+    const totalPuh    = monthPuh.reduce((s, e) => s + (Number(e.amount) || 0), 0);
 
-    return `<tr ${rowStyle}>
-      <td class="td-name">${monthLabel}</td>
-      <td><span class="badge badge-green">${count} order${count !== 1 ? 's' : ''}</span></td>
-      <td style="color:var(--text-muted)">${formatPeso(computed)}</td>
-      <td>${overrideCell}</td>
-      <td style="font-weight:700;color:var(--green)">${formatPeso(effective)}</td>
-      <td style="color:var(--red)">${formatPeso(deduction)}</td>
-      <td style="font-weight:700;color:var(--accent)">${formatPeso(remaining)}</td>
-    </tr>`;
-  }).join('');
-}
+    // Net Profit = Sales - Puhunan
+    const netProfit   = totalSales - totalPuh;
+    const netClass    = netProfit >= 0 ? 'is-net' : 'is-net negative';
+    const netColor    = netProfit >= 0 ? 'var(--accent)' : 'var(--red)';
 
-/**
- * Render the saved monthly reports history table from _monthlyReports cache.
- */
-function renderMonthlyHistory() {
-  const tbody   = document.getElementById('mrHistoryBody');
-  const emptyEl = document.getElementById('mrHistoryEmpty');
+    // Order list rows (collapsed by default, toggle with button)
+    const orderRows = monthOrders
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .map(o => `
+        <div class="month-order-row">
+          <div>
+            <span style="font-weight:600">👤 ${o.customer}</span>
+            <span style="color:var(--text-muted);margin-left:8px">${o.product} ×${o.qty}</span>
+          </div>
+          <strong style="color:var(--green)">${formatPeso(o.total)}</strong>
+        </div>`).join('');
 
-  if (!_monthlyReports.length) {
-    tbody.innerHTML = '';
-    emptyEl.style.display = 'flex';
-    return;
-  }
+    // Puhunan rows
+    const puhRows = monthPuh
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .map(e => `
+        <div class="month-order-row">
+          <div>
+            <span style="font-weight:600">💸 ${e.description || 'Puhunan'}</span>
+            <span style="color:var(--text-muted);margin-left:8px">${new Date(e.date + 'T00:00:00').toLocaleDateString('en-PH',{month:'short',day:'numeric'})}</span>
+          </div>
+          <strong style="color:var(--red)">${formatPeso(e.amount)}</strong>
+        </div>`).join('');
 
-  emptyEl.style.display = 'none';
-  const sorted = [..._monthlyReports].sort((a, b) => b.monthKey.localeCompare(a.monthKey));
+    const detailsId = 'mdet-' + key.replace('-', '');
 
-  tbody.innerHTML = sorted.map(r => {
-    const hasOverride = r.override && Number(r.override) > 0;
-    const overrideCell = hasOverride
-      ? `<span style="color:var(--yellow);font-weight:700">${formatPeso(Number(r.override))}</span>`
-      : `<span style="color:var(--text-muted);font-size:0.78rem">—</span>`;
-
-    return `<tr>
-      <td class="td-name">${r.monthLabel || monthKeyToLabel(r.monthKey)}</td>
-      <td style="color:var(--text-muted)">${formatPeso(r.computed || r.total || 0)}</td>
-      <td>${overrideCell}</td>
-      <td style="font-weight:700;color:var(--green)">${formatPeso(r.total)}</td>
-      <td style="color:var(--red)">${formatPeso(r.deduction)}</td>
-      <td style="font-weight:700;color:var(--accent)">${formatPeso(r.remaining)}</td>
-      <td style="color:var(--text-muted);font-size:0.8rem">${r.savedAt ? formatDate(r.savedAt) : '—'}</td>
-      <td style="text-align:center">
-        <button class="btn btn-del btn-sm"
-          onclick="deleteMonthlyReport('${r.id}','${(r.monthLabel || r.monthKey).replace(/'/g, "\\'")}')">
-          🗑 Delete
+    return `
+      <div class="month-card">
+        <div class="month-card-header">
+          <div class="month-card-title">
+            📅 ${label}
+            ${isCurrent ? '<span class="month-card-badge">Current Month</span>' : ''}
+          </div>
+          <div style="font-size:0.75rem;color:var(--text-muted)">${monthOrders.length} order${monthOrders.length!==1?'s':''} · ${monthPuh.length} puhunan entr${monthPuh.length!==1?'ies':'y'}</div>
+        </div>
+        <div class="month-card-body">
+          <div class="month-stat is-sales">
+            <div class="month-stat-label">💰 Sales</div>
+            <div class="month-stat-value">${formatPeso(totalSales)}</div>
+            <div class="month-stat-sub">${monthOrders.length} completed</div>
+          </div>
+          <div class="month-stat is-puh">
+            <div class="month-stat-label">💸 Puhunan</div>
+            <div class="month-stat-value">${formatPeso(totalPuh)}</div>
+            <div class="month-stat-sub">${monthPuh.length} entr${monthPuh.length!==1?'ies':'y'}</div>
+          </div>
+          <div class="month-stat ${netClass}">
+            <div class="month-stat-label">📈 Net Profit</div>
+            <div class="month-stat-value">${formatPeso(netProfit)}</div>
+            <div class="month-stat-sub">Sales − Puhunan</div>
+          </div>
+        </div>
+        <button class="month-orders-toggle" onclick="toggleMonthDetails('${detailsId}', this)">
+          ▶ Show Details
         </button>
-      </td>
-    </tr>`;
+        <div id="${detailsId}" style="display:none">
+          ${monthOrders.length ? `
+            <div class="month-card-orders">
+              <div style="font-size:0.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);padding:10px 0 6px">Sales Orders</div>
+              ${orderRows}
+            </div>` : ''}
+          ${monthPuh.length ? `
+            <div class="month-card-orders" style="border-top:1px solid var(--border)">
+              <div style="font-size:0.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);padding:10px 0 6px">Puhunan Entries</div>
+              ${puhRows}
+            </div>` : ''}
+        </div>
+      </div>`;
   }).join('');
 }
 
-/* ─────────────────────────────────────────────────
-   OVERRIDE PANEL UI
-───────────────────────────────────────────────── */
-
-/** Toggle the override input panel open/closed */
-function toggleOverridePanel() {
-  _overridePanelOpen = !_overridePanelOpen;
-  document.getElementById('mrOverrideBody').style.display  = _overridePanelOpen ? 'block' : 'none';
-  document.getElementById('mrOverrideToggleLabel').textContent = _overridePanelOpen ? 'Close' : 'Edit Earnings';
-}
-
-/** Live preview while user types an override amount */
-function previewOverride(val) {
-  const amount = parseFloat(val);
-  const preview = document.getElementById('mrOverridePreview');
-  if (!val || isNaN(amount) || amount <= 0) { preview.style.display = 'none'; return; }
-  const ded = amount * 0.10;
-  document.getElementById('mrOpTotal').textContent  = formatPeso(amount);
-  document.getElementById('mrOpDeduct').textContent = formatPeso(ded);
-  document.getElementById('mrOpRemain').textContent = formatPeso(amount - ded);
-  preview.style.display = 'block';
-}
-
-/**
- * Save the override value to Firebase "monthly_override/<YYYY-MM>".
- * The listener will fire and re-render automatically.
- */
-function applyOverride() {
-  const val    = parseFloat(document.getElementById('mrOverrideInput').value);
-  const key    = currentMonthKey();
-  if (isNaN(val) || val <= 0) { toast('Please enter a valid amount greater than 0.', 'warning'); return; }
-
-  setSyncState('sync');
-  // ── WRITE: save override to Firebase ──
-  db.ref('monthly_override/' + key).set(val)
-    .then(() => {
-      toast(`✏️ Override saved for ${monthKeyToLabel(key)}: ${formatPeso(val)}`, 'success');
-      setSyncState('live');
-      if (_overridePanelOpen) toggleOverridePanel();
-    })
-    .catch(err => { toast('Save error: ' + err.message, 'error'); setSyncState('live'); });
-}
-
-/**
- * Remove the override for the current month from Firebase.
- * Reverts to computed value from real orders.
- */
-function clearOverride() {
-  const key = currentMonthKey();
-  if (!_monthlyOverride[key]) { toast('No override set for this month.', 'info'); return; }
-
-  showConfirm(
-    'Clear Override?',
-    `This will remove the manual override for <strong>${monthKeyToLabel(key)}</strong>. The system will revert to computed order data.`,
-    '✏️', 'Yes, Clear Override',
-    () => {
-      setSyncState('sync');
-      db.ref('monthly_override/' + key).remove()
-        .then(() => { toast('Override cleared. Now showing real order data.', 'info'); setSyncState('live'); })
-        .catch(err => { toast('Error: ' + err.message, 'error'); setSyncState('live'); });
-    }
-  );
+/** Toggle the month details expand/collapse */
+function toggleMonthDetails(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const isOpen = el.style.display !== 'none';
+  el.style.display = isOpen ? 'none' : 'block';
+  btn.textContent  = isOpen ? '▶ Show Details' : '▼ Hide Details';
 }
 
 /* ─────────────────────────────────────────────────
-   SAVE & DELETE
+   KEPT: override/save stubs so nothing breaks if
+   called from old saved HTML or other code paths.
 ───────────────────────────────────────────────── */
-
-/**
- * Save a snapshot of the current month's data to "monthly_reports/<id>".
- * Records both the computed value AND override (if any) for full auditability.
- */
-function saveCurrentMonthReport() {
-  // ── READ: get real computed earnings from orders ──
-  const earningsMap = buildMonthlyEarningsMap();
-  const thisMonth   = currentMonthKey();
-  const computed    = earningsMap[thisMonth] || 0;
-
-  // ── OVERRIDE CHECK: apply override if it exists ──
-  const { effective, isOverride } = resolveEarnings(thisMonth, computed);
-
-  if (effective === 0 && computed === 0) {
-    toast('No earnings to save for this month yet.', 'warning');
-    return;
-  }
-
-  const deduction = effective * 0.10;
-  const remaining = effective - deduction;
-  const label     = monthKeyToLabel(thisMonth);
-
-  // Re-use existing id so re-saving the same month just updates it
-  const existing = _monthlyReports.find(r => r.monthKey === thisMonth);
-  const id       = existing ? existing.id : genId();
-
-  const report = {
-    id,
-    monthKey:   thisMonth,
-    monthLabel: label,
-    computed,                              // always the real orders-based value
-    override:   isOverride ? Number(_monthlyOverride[thisMonth]) : null,
-    total:      effective,                 // effective = override ?? computed
-    deduction,
-    remaining,
-    savedAt:    new Date().toISOString()
-  };
-
-  setSyncState('sync');
-  db.ref('monthly_reports/' + id).set(report)
-    .then(() => { toast(`✅ ${label} report saved!`, 'success'); setSyncState('live'); })
-    .catch(err => { toast('Save error: ' + err.message, 'error'); setSyncState('live'); });
-}
-
-/** Delete a saved monthly report snapshot from Firebase. */
+function toggleOverridePanel()    { /* removed in v4 */ }
+function previewOverride()        { /* removed in v4 */ }
+function applyOverride()          { toast('Override feature removed in this version.', 'info'); }
+function clearOverride()          { toast('Override feature removed in this version.', 'info'); }
+function saveCurrentMonthReport() { toast('Use the Puhunan section to track capital expenses.', 'info'); }
+function renderMonthlyBreakdown() { /* replaced by renderMonthlyReport per-month cards */ }
+function renderMonthlyHistory()   { /* replaced by renderMonthlyReport per-month cards */ }
 function deleteMonthlyReport(id, label) {
-  showConfirm(
-    'Delete Report?',
-    `Remove saved report for <strong>${label}</strong> from history?`,
-    '🗑', 'Yes, Delete',
-    () => {
-      setSyncState('sync');
-      db.ref('monthly_reports/' + id).remove()
-        .then(() => { toast(`🗑 Report deleted.`, 'info'); setSyncState('live'); })
-        .catch(err => { toast('Error: ' + err.message, 'error'); setSyncState('live'); });
-    }
-  );
+  showConfirm('Delete Report?', `Remove saved report for <strong>${label}</strong>?`, '🗑', 'Yes, Delete', () => {
+    db.ref('monthly_reports/' + id).remove()
+      .then(() => toast('Report deleted.', 'info'))
+      .catch(err => toast('Error: ' + err.message, 'error'));
+  });
 }
 /* ════════════════════════════════════════════════════════════════
    END MONTHLY EARNINGS LOGIC
 ════════════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════════════
+   NEW: PROFIT / TIGHTS HELPERS
+════════════════════════════════════════════════════════════════ */
+
+/**
+ * Look up a product's cost (puhunan) by name or id.
+ * Returns 0 if not found or cost not set.
+ */
+function calcProductCost(productNameOrId) {
+  const p = _products.find(x => x.name === productNameOrId || x.id === productNameOrId);
+  return (p && p.cost) ? Number(p.cost) : 0;
+}
+
+/**
+ * Helper: total all puhunan entries (optionally filtered to a month key YYYY-MM).
+ */
+function getTotalPuhunan(monthKey) {
+  return getPuhunan()
+    .filter(e => !monthKey || (e.date && e.date.slice(0,7) === monthKey))
+    .reduce((s, e) => s + (Number(e.amount) || 0), 0);
+}
+
+/**
+ * Helper: compute net profit = totalSales - totalPuhunan.
+ * Used by dashboard and puhunan section.
+ */
+function computeNetProfit() {
+  const orders = getOrders().filter(o => o.status === 'completed');
+  const totalSales   = orders.reduce((s, o) => s + (Number(o.total) || 0), 0);
+  const totalPuhunan = getTotalPuhunan();
+  const netProfit    = totalSales - totalPuhunan;
+  const tights       = Math.max(0, netProfit) * 0.10;
+  return { totalSales, totalPuhunan, netProfit, tights };
+}
+
+/**
+ * Render the Net Profit banner into an element by id.
+ */
+function renderNetProfitBanner(elementId) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const { totalSales, totalPuhunan, netProfit, tights } = computeNetProfit();
+  const color = netProfit >= 0 ? 'var(--green)' : 'var(--red)';
+  const bg    = netProfit >= 0
+    ? 'linear-gradient(135deg,var(--green-light) 0%,#d4f0e0 100%)'
+    : 'linear-gradient(135deg,var(--red-light) 0%,#fce8e8 100%)';
+  const borderColor = netProfit >= 0 ? 'rgba(58,138,90,0.25)' : 'rgba(200,58,58,0.25)';
+  el.innerHTML = `
+    <div class="net-profit-banner" style="background:${bg};border-color:${borderColor}">
+      <div class="nbp-main">
+        <div class="nbp-label" style="color:${color}">NET PROFIT</div>
+        <div class="nbp-value" style="color:${color}">${formatPeso(netProfit)}</div>
+        <div class="nbp-formula" style="color:${color}">Sales − Puhunan = Net Profit</div>
+      </div>
+      <div class="nbp-breakdown">
+        <div class="nbp-item">
+          <div class="nbp-item-val" style="color:var(--green)">${formatPeso(totalSales)}</div>
+          <div class="nbp-item-lbl">Total Sales</div>
+        </div>
+        <div class="nbp-item" style="color:var(--text-muted);font-size:1.2rem;align-self:center">−</div>
+        <div class="nbp-item">
+          <div class="nbp-item-val" style="color:var(--red)">${formatPeso(totalPuhunan)}</div>
+          <div class="nbp-item-lbl">Puhunan</div>
+        </div>
+        <div class="nbp-item" style="color:var(--text-muted);font-size:1.2rem;align-self:center">=</div>
+        <div class="nbp-item">
+          <div class="nbp-item-val" style="color:${color}">${formatPeso(netProfit)}</div>
+          <div class="nbp-item-lbl">Net Profit</div>
+        </div>
+        <div class="nbp-item" style="border-left:1px solid rgba(0,0,0,0.1);padding-left:20px;margin-left:4px">
+          <div class="nbp-item-val" style="color:var(--yellow)">${formatPeso(tights)}</div>
+          <div class="nbp-item-lbl">🩱 Tights 10%</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/**
+ * Render the profit breakdown cards into #dashProfitStats.
+ * Tights is now based on NET PROFIT (sales − puhunan), not gross profit.
+ * Called from renderDashboard().
+ */
+function updateProfitStats() {
+  const el = document.getElementById('dashProfitStats');
+  if (!el) return;
+
+  const orders = getOrders().filter(o => o.status === 'completed');
+  let totalSales = 0, totalCapital = 0, totalGrossProfit = 0;
+
+  orders.forEach(o => {
+    const cost        = calcProductCost(o.product);
+    totalSales       += Number(o.total) || 0;
+    totalCapital     += cost * (Number(o.qty) || 0);
+    totalGrossProfit += (Number(o.total) || 0) - cost * (Number(o.qty) || 0);
+  });
+
+  const totalPuhunan = getTotalPuhunan();
+  const netProfit    = totalSales - totalPuhunan;
+  const tights       = Math.max(0, netProfit) * 0.10;
+
+  // Render the net profit banner above the breakdown cards
+  renderNetProfitBanner('dashNetProfitBanner');
+
+  el.innerHTML = `
+    <div class="card stat-card">
+      <div class="card-icon" style="background:var(--green-light);color:var(--green)">💰</div>
+      <div class="card-title">Total Sales (Regular)</div>
+      <div class="card-value">${formatPeso(totalSales)}</div>
+      <div class="card-sub">${orders.length} completed order(s)</div>
+    </div>
+    <div class="card stat-card">
+      <div class="card-icon" style="background:var(--red-light);color:var(--red)">💸</div>
+      <div class="card-title">Total Puhunan</div>
+      <div class="card-value" style="color:var(--red)">${formatPeso(totalPuhunan)}</div>
+      <div class="card-sub">Capital expenses recorded</div>
+    </div>
+    <div class="card stat-card">
+      <div class="card-icon" style="background:var(--accent-light);color:var(--accent)">📈</div>
+      <div class="card-title">Net Profit</div>
+      <div class="card-value" style="color:var(--accent)">${formatPeso(netProfit)}</div>
+      <div class="card-sub">Sales − Puhunan</div>
+    </div>
+    <div class="card stat-card">
+      <div class="card-icon" style="background:var(--yellow-light);color:var(--yellow)">🩱</div>
+      <div class="card-title">Tights (10%)</div>
+      <div class="card-value" style="color:var(--yellow)">${formatPeso(tights)}</div>
+      <div class="card-sub">10% of Net Profit</div>
+    </div>`;
+}
+
+/**
+ * Render the reseller summary cards into #dashResellerStats.
+ * ONLY counts completed reseller orders.
+ * Profit = (originalPrice - resellerPrice) * quantity
+ * Called from renderDashboard().
+ */
+function updateResellerStats() {
+  const el = document.getElementById('dashResellerStats');
+  if (!el) return;
+
+  const resellers = getResellers();
+  let totalRSales = 0, totalRProfit = 0, totalROrders = 0;
+
+  // ── ONLY count completed orders ──
+  resellers.forEach(r => {
+    const orders = r.orders ? Object.values(r.orders) : [];
+    orders.filter(o => o.status === 'completed').forEach(o => {
+      totalRSales  += Number(o.total) || 0;
+      // Correct profit: original retail price minus what reseller pays, times qty
+      const origPrice = Number(o.originalPrice) || Number(o.resellerPrice) || 0;
+      totalRProfit += (origPrice - Number(o.resellerPrice)) * Number(o.quantity);
+      totalROrders++;
+    });
+  });
+
+  el.innerHTML = `
+    <div class="card stat-card">
+      <div class="card-icon" style="background:var(--green-light);color:var(--green)">🤝</div>
+      <div class="card-title">Reseller Sales</div>
+      <div class="card-value">${formatPeso(totalRSales)}</div>
+      <div class="card-sub">${resellers.length} reseller(s) · ${totalROrders} completed</div>
+    </div>
+    <div class="card stat-card">
+      <div class="card-icon" style="background:var(--accent-light);color:var(--accent)">💹</div>
+      <div class="card-title">Reseller Profit</div>
+      <div class="card-value" style="color:var(--accent)">${formatPeso(totalRProfit)}</div>
+      <div class="card-sub">(Original − Reseller Price) × Qty</div>
+    </div>`;
+
+  // ── Monthly breakdown ──
+  renderDashResellerMonthly(resellers);
+}
+
+/** Render per-month reseller earnings on dashboard (completed orders only, separated by month). */
+function renderDashResellerMonthly(resellers) {
+  const container = document.getElementById('dashResellerMonthly');
+  const divider   = document.getElementById('dashResellerMonthlyDivider');
+  if (!container) return;
+
+  const monthMap   = {};
+  const monthOrder = [];
+
+  resellers.forEach(r => {
+    const orders = r.orders ? Object.values(r.orders) : [];
+    orders.filter(o => o.status === 'completed' && o.date).forEach(o => {
+      const key = o.date.slice(0, 7);
+      if (!monthMap[key]) {
+        const label = new Date(Number(key.slice(0,4)), Number(key.slice(5,7))-1, 1)
+          .toLocaleDateString('en-PH', { month: 'long', year: 'numeric' });
+        monthMap[key] = { label, sales: 0, profit: 0, count: 0 };
+        monthOrder.push(key);
+      }
+      const origPrice = Number(o.originalPrice) || Number(o.resellerPrice) || 0;
+      monthMap[key].sales  += Number(o.total) || 0;
+      monthMap[key].profit += (origPrice - Number(o.resellerPrice)) * Number(o.quantity);
+      monthMap[key].count++;
+    });
+  });
+
+  monthOrder.sort().reverse();
+
+  if (!monthOrder.length) {
+    if (divider) divider.style.display = 'none';
+    container.innerHTML = '';
+    return;
+  }
+  if (divider) divider.style.display = 'block';
+
+  container.innerHTML = `<div class="profit-grid" style="margin-bottom:14px">` +
+    monthOrder.map(key => {
+      const m = monthMap[key];
+      return `
+        <div class="card stat-card">
+          <div class="card-icon" style="background:var(--pink-light);color:var(--accent)">📅</div>
+          <div class="card-title">${m.label}</div>
+          <div class="card-value" style="color:var(--green)">${formatPeso(m.sales)}</div>
+          <div class="card-sub">Profit: <strong style="color:var(--accent)">${formatPeso(m.profit)}</strong> · ${m.count} order(s)</div>
+        </div>`;
+    }).join('') + `</div>`;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   NEW: RESELLERS — CRUD & RENDER
+════════════════════════════════════════════════════════════════ */
+
+/** Open the Add/Edit Reseller modal. Pass id to edit, omit to add. */
+function openResellerModal(id) {
+  document.getElementById('editResellerId').value = id || '';
+  if (id) {
+    const r = getResellers().find(x => x.id === id);
+    if (!r) return;
+    document.getElementById('resellerName').value    = r.name;
+    document.getElementById('resellerContact').value = r.contact || '';
+    document.getElementById('resellerModalTitle').textContent = 'Edit Reseller';
+  } else {
+    document.getElementById('resellerName').value    = '';
+    document.getElementById('resellerContact').value = '';
+    document.getElementById('resellerModalTitle').textContent = 'Add Reseller';
+  }
+  document.getElementById('resellerModal').classList.add('open');
+  setTimeout(() => document.getElementById('resellerName').focus(), 120);
+}
+
+function closeResellerModal() {
+  document.getElementById('resellerModal').classList.remove('open');
+}
+
+/** Save new or updated reseller to Firebase. */
+function saveReseller() {
+  const id      = document.getElementById('editResellerId').value;
+  const name    = document.getElementById('resellerName').value.trim();
+  const contact = document.getElementById('resellerContact').value.trim();
+  if (!name) { toast('Reseller name is required.', 'error'); return; }
+
+  setSyncState('sync');
+  if (id) {
+    // Edit existing — preserve existing orders node
+    db.ref('resellers/' + id).update({ name, contact })
+      .then(() => { toast(`"${name}" updated!`, 'success'); setSyncState('live'); })
+      .catch(err => { toast('Error: ' + err.message, 'error'); setSyncState('live'); });
+  } else {
+    const newId = genId();
+    db.ref('resellers/' + newId).set({ id: newId, name, contact, orders: {} })
+      .then(() => { toast(`Reseller "${name}" added!`, 'success'); setSyncState('live'); })
+      .catch(err => { toast('Error: ' + err.message, 'error'); setSyncState('live'); });
+  }
+  closeResellerModal();
+}
+
+/** Confirm-delete a reseller (and all their orders). */
+function deleteReseller(id, name) {
+  showConfirm(
+    'Delete Reseller?',
+    `"${name}" and all their orders will be permanently removed.`,
+    '🗑', 'Yes, Delete',
+    () => {
+      setSyncState('sync');
+      db.ref('resellers/' + id).remove()
+        .then(() => { toast('Reseller deleted.', 'info'); setSyncState('live'); })
+        .catch(err => { toast('Error: ' + err.message, 'error'); setSyncState('live'); });
+    }
+  );
+}
+
+/** Open the Add Reseller Order modal for a given reseller. */
+function openResellerOrderModal(resellerId) {
+  const r = getResellers().find(x => x.id === resellerId);
+  if (!r) return;
+  const products = getProducts();
+  if (!products.length) { toast('Add products first before adding a reseller order!', 'error'); return; }
+
+  document.getElementById('roResellerId').value   = resellerId;
+  document.getElementById('roResellerName').value = r.name;
+  document.getElementById('roQty').value          = 1;
+  document.getElementById('roPrice').value        = '';
+  document.getElementById('roPreview').style.display       = 'none';
+  document.getElementById('roProfitPreview').style.display = 'none';
+
+  const sel = document.getElementById('roProduct');
+  sel.innerHTML = '<option value="">— Select a product —</option>' +
+    products.map(p =>
+      `<option value="${p.id}" data-price="${p.price}" data-cost="${p.cost || 0}">${p.name} (₱${p.price}) — ${p.stock} in stock</option>`
+    ).join('');
+
+  document.getElementById('resellerOrderModal').classList.add('open');
+  setTimeout(() => document.getElementById('roProduct').focus(), 120);
+}
+
+function closeResellerOrderModal() {
+  document.getElementById('resellerOrderModal').classList.remove('open');
+}
+
+/** Update the price/profit preview inside the reseller order modal. */
+function updateResellerOrderPreview() {
+  const sel         = document.getElementById('roProduct');
+  const qty         = parseInt(document.getElementById('roQty').value) || 0;
+  const resellerPrc = parseFloat(document.getElementById('roPrice').value) || 0;
+  const opt         = sel.options[sel.selectedIndex];
+
+  if (!opt || !opt.value || !resellerPrc || qty < 1) {
+    document.getElementById('roPreview').style.display       = 'none';
+    document.getElementById('roProfitPreview').style.display = 'none';
+    return;
+  }
+  const originalPrice = parseFloat(opt.getAttribute('data-price')) || 0;
+  const total         = resellerPrc * qty;
+  // Profit = what YOU keep = original price minus reseller price (the discount you gave)
+  const profit        = (originalPrice - resellerPrc) * qty;
+
+  document.getElementById('roTotal').textContent     = formatPeso(total);
+  document.getElementById('roProfitAmt').textContent = formatPeso(profit);
+  document.getElementById('roPreview').style.display       = 'flex';
+  document.getElementById('roProfitPreview').style.display = 'block';
+}
+
+/** Save a new reseller order to Firebase under resellers/<id>/orders/<orderId>. */
+function addResellerOrder() {
+  const resellerId  = document.getElementById('roResellerId').value;
+  const sel         = document.getElementById('roProduct');
+  const productId   = sel.value;
+  const qty         = parseInt(document.getElementById('roQty').value);
+  const resellerPrc = parseFloat(document.getElementById('roPrice').value);
+
+  if (!productId)             { toast('Please select a product.', 'error'); return; }
+  if (isNaN(qty) || qty < 1)  { toast('Quantity must be at least 1.', 'error'); return; }
+  if (isNaN(resellerPrc) || resellerPrc <= 0) { toast('Enter a valid reseller price.', 'error'); return; }
+
+  const product = getProducts().find(p => p.id === productId);
+  if (!product) { toast('Product not found.', 'error'); return; }
+
+  const originalPrice = Number(product.price) || 0;
+  const profit        = (originalPrice - resellerPrc) * qty;
+  const orderId       = genId();
+
+  const order = {
+    id:            orderId,
+    productName:   product.name,
+    productId,
+    quantity:      qty,
+    originalPrice,
+    resellerPrice: resellerPrc,
+    profit,
+    total:         resellerPrc * qty,
+    status:        'pending',
+    date:          new Date().toISOString()
+  };
+
+  setSyncState('sync');
+  db.ref(`resellers/${resellerId}/orders/${orderId}`).set(order)
+    .then(() => {
+      toast(`✅ Reseller order added! Total: ${formatPeso(order.total)} · Profit: ${formatPeso(profit)}`, 'success');
+      setSyncState('live');
+      closeResellerOrderModal();
+    })
+    .catch(err => { toast('Error: ' + err.message, 'error'); setSyncState('live'); });
+}
+
+/** Confirm-delete a single reseller order. */
+function deleteResellerOrder(resellerId, orderId) {
+  showConfirm(
+    'Delete Order?',
+    'Remove this reseller order permanently?',
+    '🗑', 'Yes, Delete',
+    () => {
+      setSyncState('sync');
+      db.ref(`resellers/${resellerId}/orders/${orderId}`).remove()
+        .then(() => { toast('Order removed.', 'info'); setSyncState('live'); })
+        .catch(err => { toast('Error: ' + err.message, 'error'); setSyncState('live'); });
+    }
+  );
+}
+
+/** Mark a reseller order as Completed — it will then count in dashboard earnings. */
+function markResellerOrderDone(resellerId, orderId) {
+  setSyncState('sync');
+  db.ref(`resellers/${resellerId}/orders/${orderId}/status`).set('completed')
+    .then(() => {
+      toast('✅ Reseller order marked as Completed!', 'success');
+      setSyncState('live');
+    })
+    .catch(err => { toast('Error: ' + err.message, 'error'); setSyncState('live'); });
+}
+
+/** Render the full Resellers section. */
+function renderResellers() {
+  const resellers = getResellers();
+  const grid      = document.getElementById('resellerGrid');
+  const empty     = document.getElementById('resellerEmpty');
+
+  // ── Summary stat cards — completed orders only ──
+  let totalSales = 0, totalProfit = 0, totalOrders = 0, pendingCount = 0;
+  resellers.forEach(r => {
+    const orders = r.orders ? Object.values(r.orders) : [];
+    orders.forEach(o => {
+      if (o.status === 'completed') {
+        totalSales  += Number(o.total) || 0;
+        const orig   = Number(o.originalPrice) || Number(o.resellerPrice) || 0;
+        totalProfit += (orig - Number(o.resellerPrice)) * Number(o.quantity);
+        totalOrders++;
+      } else {
+        pendingCount++;
+      }
+    });
+  });
+
+  const summaryEl = document.getElementById('resellerSummaryStats');
+  if (summaryEl) {
+    summaryEl.innerHTML = `
+      <div class="card stat-card">
+        <div class="card-icon" style="background:var(--accent-light);color:var(--accent)">🤝</div>
+        <div class="card-title">Total Resellers</div>
+        <div class="card-value">${resellers.length}</div>
+        <div class="card-sub">${totalOrders} done · ${pendingCount} pending</div>
+      </div>
+      <div class="card stat-card">
+        <div class="card-icon" style="background:var(--green-light);color:var(--green)">💰</div>
+        <div class="card-title">Completed Sales</div>
+        <div class="card-value">${formatPeso(totalSales)}</div>
+        <div class="card-sub">From completed orders only</div>
+      </div>
+      <div class="card stat-card">
+        <div class="card-icon" style="background:var(--blue-light);color:var(--blue)">📈</div>
+        <div class="card-title">Total Profit</div>
+        <div class="card-value" style="color:var(--blue)">${formatPeso(totalProfit)}</div>
+        <div class="card-sub">(Original − Reseller Price) × Qty</div>
+      </div>`;
+  }
+
+  if (!resellers.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = resellers.map(r => {
+    const orders = r.orders ? Object.values(r.orders) : [];
+    orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    // Stats: completed orders only for this reseller
+    let rSales = 0, rProfit = 0, rDone = 0, rPending = 0;
+    orders.forEach(o => {
+      const orig   = Number(o.originalPrice) || Number(o.resellerPrice) || 0;
+      const profit = (orig - Number(o.resellerPrice)) * Number(o.quantity);
+      if (o.status === 'completed') {
+        rSales  += Number(o.total) || 0;
+        rProfit += profit;
+        rDone++;
+      } else {
+        rPending++;
+      }
+    });
+
+    const ordersHTML = orders.length
+      ? orders.map(o => {
+          const orig   = Number(o.originalPrice) || Number(o.resellerPrice) || 0;
+          const profit = (orig - Number(o.resellerPrice)) * Number(o.quantity);
+          const isDone = o.status === 'completed';
+          const statusBadgeHTML = isDone
+            ? `<span class="reseller-order-status completed">✅ Done</span>`
+            : `<span class="reseller-order-status pending">⏳ Pending</span>`;
+          const doneBtn = !isDone
+            ? `<button class="btn btn-green btn-sm" onclick="markResellerOrderDone('${r.id}','${o.id}')" title="Mark as completed">✓ Done</button>`
+            : '';
+          return `<div class="reseller-order-row">
+            <div class="reseller-order-info">
+              <div class="reseller-order-product">🫙 ${o.productName} ${statusBadgeHTML}</div>
+              <div class="reseller-order-detail">
+                ×${o.quantity} · Orig: ${formatPeso(orig)} → Reseller: ${formatPeso(o.resellerPrice)}
+                · ${new Date(o.date).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'})}
+              </div>
+            </div>
+            <div class="reseller-order-right">
+              <div class="reseller-order-total">${formatPeso(o.total)}</div>
+              <div class="reseller-order-profit" style="color:${isDone?'var(--green)':'var(--text-muted)'}">
+                ${isDone ? '+' : ''}${formatPeso(profit)} profit
+              </div>
+            </div>
+            <div class="reseller-order-actions">
+              ${doneBtn}
+              <button class="btn btn-del btn-sm" onclick="deleteResellerOrder('${r.id}','${o.id}')">🗑</button>
+            </div>
+          </div>`;
+        }).join('')
+      : `<div class="reseller-empty">No orders yet. Click below to add one.</div>`;
+
+    const safeRName = (r.name || '').replace(/'/g, "\\'");
+    return `<div class="reseller-card">
+      <div class="reseller-card-header">
+        <div class="reseller-card-name">
+          🤝 ${r.name}
+          ${r.contact ? `<span style="color:var(--text-muted);font-size:0.74rem;font-weight:400">${r.contact}</span>` : ''}
+        </div>
+        <div class="reseller-card-actions">
+          <button class="btn btn-edit btn-sm" onclick="openResellerModal('${r.id}')">✏️ Edit</button>
+          <button class="btn btn-del btn-sm" onclick="deleteReseller('${r.id}','${safeRName}')">🗑️</button>
+        </div>
+      </div>
+      <div class="reseller-card-body">
+        <div class="reseller-stats">
+          <div class="reseller-stat">
+            <div class="reseller-stat-val">${formatPeso(rSales)}</div>
+            <div class="reseller-stat-label">Sales ✅</div>
+          </div>
+          <div class="reseller-stat">
+            <div class="reseller-stat-val" style="color:var(--green)">${formatPeso(rProfit)}</div>
+            <div class="reseller-stat-label">Profit</div>
+          </div>
+          <div class="reseller-stat">
+            <div class="reseller-stat-val" style="color:var(--blue)">${rDone}</div>
+            <div class="reseller-stat-label">Done</div>
+          </div>
+          <div class="reseller-stat">
+            <div class="reseller-stat-val" style="color:var(--orange)">${rPending}</div>
+            <div class="reseller-stat-label">Pending</div>
+          </div>
+        </div>
+        <div class="reseller-orders-title">Order History</div>
+        ${ordersHTML}
+        <button class="reseller-add-order" onclick="openResellerOrderModal('${r.id}')">＋ Add Reseller Order</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PUHUNAN — ADD / DELETE / RENDER
+════════════════════════════════════════════════════════════════ */
+
+/** Set today's date as the default value in the puhunan date input */
+function initPuhunanDate() {
+  const inp = document.getElementById('puhunanDate');
+  if (inp && !inp.value) inp.value = todayStr();
+}
+
+/** Add a new puhunan entry to Firebase under puhunan/<id> */
+function addPuhunan() {
+  const amount = parseFloat(document.getElementById('puhunanAmount').value);
+  const desc   = document.getElementById('puhunanDesc').value.trim();
+  const date   = document.getElementById('puhunanDate').value;
+
+  if (isNaN(amount) || amount <= 0) { toast('Enter a valid amount greater than 0.', 'error'); return; }
+  if (!date) { toast('Please select a date.', 'error'); return; }
+
+  const id    = genId();
+  const entry = {
+    id,
+    amount,
+    description: desc || 'Puhunan',
+    date,
+    createdAt: new Date().toISOString()
+  };
+
+  setSyncState('sync');
+  db.ref('puhunan/' + id).set(entry)
+    .then(() => {
+      toast(`💸 Puhunan ${formatPeso(amount)} saved!`, 'success');
+      setSyncState('live');
+      document.getElementById('puhunanAmount').value = '';
+      document.getElementById('puhunanDesc').value   = '';
+      // keep date for convenience
+    })
+    .catch(err => { toast('Error saving: ' + err.message, 'error'); setSyncState('live'); });
+}
+
+/** Confirm-delete a puhunan entry from Firebase */
+function deletePuhunan(id, amount) {
+  showConfirm(
+    'Delete Entry?',
+    `Remove puhunan entry of <strong>${formatPeso(amount)}</strong>? This will affect your Net Profit.`,
+    '🗑', 'Yes, Delete',
+    () => {
+      setSyncState('sync');
+      db.ref('puhunan/' + id).remove()
+        .then(() => { toast('Puhunan entry deleted.', 'info'); setSyncState('live'); })
+        .catch(err => { toast('Error: ' + err.message, 'error'); setSyncState('live'); });
+    }
+  );
+}
+
+/** Render the full Puhunan section including net profit banner and monthly history */
+function renderPuhunan() {
+  // Set today's date on the form if empty
+  initPuhunanDate();
+
+  // Render net profit banner at the top of the section
+  renderNetProfitBanner('puhunanNetBanner');
+
+  const entries   = [...getPuhunan()].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const historyEl = document.getElementById('puhunanHistory');
+  const emptyEl   = document.getElementById('puhunanEmpty');
+
+  if (!entries.length) {
+    historyEl.innerHTML = '';
+    historyEl.appendChild(emptyEl);
+    emptyEl.style.display = 'flex';
+    return;
+  }
+  emptyEl.style.display = 'none';
+
+  // ── Group entries by YYYY-MM ──
+  const groups = {};
+  const groupOrder = [];
+  entries.forEach(e => {
+    const key = e.date ? e.date.slice(0, 7) : 'unknown';
+    if (!groups[key]) {
+      const label = key === 'unknown'
+        ? 'Unknown Date'
+        : new Date(Number(key.slice(0, 4)), Number(key.slice(5, 7)) - 1, 1)
+            .toLocaleDateString('en-PH', { month: 'long', year: 'numeric' });
+      groups[key] = { label, entries: [], total: 0 };
+      groupOrder.push(key);
+    }
+    groups[key].entries.push(e);
+    groups[key].total += Number(e.amount) || 0;
+  });
+
+  const completedOrders = getOrders().filter(o => o.status === 'completed');
+
+  historyEl.innerHTML = groupOrder.map(key => {
+    const g = groups[key];
+
+    // Monthly sales from regular orders
+    const monthlySales = completedOrders
+      .filter(o => o.date && o.date.slice(0, 7) === key)
+      .reduce((s, o) => s + (Number(o.total) || 0), 0);
+
+    const monthlyNet    = monthlySales - g.total;
+    const tightsMonth   = Math.max(0, monthlyNet) * 0.10;
+    const netColor      = monthlyNet >= 0 ? 'var(--accent)' : 'var(--red)';
+
+    const entriesHTML = g.entries.map(e => `
+      <div class="puhunan-entry-row">
+        <div class="puhunan-entry-icon">💸</div>
+        <div class="puhunan-entry-info">
+          <div class="puhunan-entry-desc">${e.description || 'Puhunan'}</div>
+          <div class="puhunan-entry-date">${new Date(e.date + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</div>
+        </div>
+        <div class="puhunan-entry-amount">${formatPeso(e.amount)}</div>
+        <button class="btn btn-del btn-sm" style="margin-left:8px;flex-shrink:0" onclick="deletePuhunan('${e.id}',${e.amount})">🗑</button>
+      </div>`).join('');
+
+    return `
+      <div class="puhunan-month-group">
+        <div class="puhunan-month-header">
+          <div class="puhunan-month-label">
+            📅 <span>${g.label}</span>
+            <span class="badge badge-red">${g.entries.length} entr${g.entries.length !== 1 ? 'ies' : 'y'}</span>
+          </div>
+          <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+            <div style="text-align:right">
+              <div style="font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px">Sales</div>
+              <div style="font-weight:700;color:var(--green);font-size:.9rem">${formatPeso(monthlySales)}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px">Puhunan</div>
+              <div class="puhunan-month-total">${formatPeso(g.total)}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px">Net Profit</div>
+              <div style="font-weight:700;font-size:.9rem;color:${netColor}">${formatPeso(monthlyNet)}</div>
+            </div>
+            <div style="text-align:right;border-left:1px solid var(--border);padding-left:14px">
+              <div style="font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px">🩱 Tights</div>
+              <div style="font-weight:700;font-size:.9rem;color:var(--yellow)">${formatPeso(tightsMonth)}</div>
+            </div>
+          </div>
+        </div>
+        ${entriesHTML}
+      </div>`;
+  }).join('');
+}
 
 /* ════════════════════════════════════════════════════════════════
    BOOT — attach Firebase listeners immediately on page load.
